@@ -1,0 +1,1 @@
+// Shared project configuration - MYSQL database connection 
