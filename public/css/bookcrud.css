@@ -1,0 +1,271 @@
+/* ==========================================================
+   BookCRUD theme stylesheet — Syafiq
+   Matches the cream/maroon/gold "neubrutalist" look Hazirah is
+   building for the shared navbar/homepage.
+   Kept as its OWN file (not editing style.css) so there's no
+   merge conflict — once Hazirah's global styles land, shared
+   values here can just be deleted in favor of hers.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap');
+
+:root {
+  --color-bg: #f3e9d8;
+  --color-dark: #241a14;
+  --color-maroon: #8c2f2f;
+  --color-gold: #dba53c;
+  --color-muted: #6b6258;
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-dark);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.page-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.page-label {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.8rem;
+  color: var(--color-maroon);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.page-label::after {
+  content: " \00B7 ";
+}
+
+.page-heading {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 2.2rem;
+  color: var(--color-dark);
+  margin: 0 0 1.5rem 0;
+}
+
+.page-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Neubrutalist buttons: thick border + offset shadow */
+.btn {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.2rem;
+  border: 2px solid var(--color-dark);
+  border-radius: 2px;
+  box-shadow: 4px 4px 0 var(--color-dark);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  background: none;
+}
+
+.btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-dark);
+}
+
+.btn-maroon {
+  background-color: var(--color-maroon);
+  color: #fff;
+}
+
+.btn-gold {
+  background-color: var(--color-gold);
+  color: var(--color-dark);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--color-dark);
+}
+
+.btn-sm {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.75rem;
+  box-shadow: 2px 2px 0 var(--color-dark);
+}
+
+.btn-sm:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--color-dark);
+}
+
+/* Table */
+.book-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  border: 2px solid var(--color-dark);
+  background-color: #fff;
+}
+
+.book-table thead {
+  background-color: var(--color-dark);
+  color: var(--color-bg);
+}
+
+.book-table th,
+.book-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #d8cbb0;
+}
+
+.book-table th {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+}
+
+.book-table tbody tr:hover {
+  background-color: #f9f3e7;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--color-dark);
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.status-available {
+  background-color: #e4efe0;
+  color: #2f6b3a;
+}
+
+.status-reserved {
+  background-color: #f2e3e0;
+  color: var(--color-maroon);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.actions-cell form {
+  display: inline;
+}
+
+/* Forms */
+.form-card {
+  background-color: #fff;
+  border: 2px solid var(--color-dark);
+  padding: 2rem;
+  margin-top: 1.5rem;
+  max-width: 500px;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  margin-bottom: 0.4rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 2px solid var(--color-dark);
+  border-radius: 2px;
+  font-size: 1rem;
+  background-color: var(--color-bg);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-maroon);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* TEMPORARY placeholder nav/footer — Hazirah's UIIntegration feature
+   will replace this with the real shared views/partials/navbar.ejs
+   and footer.ejs once that branch is merged. Kept minimal on purpose. */
+.temp-navbar {
+  background-color: var(--color-dark);
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.temp-navbar a {
+  color: var(--color-bg);
+  text-decoration: none;
+  margin-right: 1.2rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.temp-navbar a:hover {
+  color: var(--color-gold);
+}
+
+.temp-footer {
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  margin-top: 3rem;
+  padding: 1rem;
+}
+
+/* Compact inline QR section — sits inside the same form-card,
+   separated by a dashed divider, instead of its own big box. */
+.qr-inline {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+  padding-top: 1.5rem;
+  border-top: 2px dashed var(--color-dark);
+}
+
+.qr-inline img {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-dark);
+}
+
+.qr-inline-text .page-label {
+  margin-bottom: 0.2rem;
+}
+
+.qr-inline-text .qr-url {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  word-break: break-all;
+}
