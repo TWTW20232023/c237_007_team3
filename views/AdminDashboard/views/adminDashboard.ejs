@@ -1,0 +1,34 @@
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/stylesheets/adminDashboard.css">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <h2>Pending Reservations</h2>
+    <table border="1">
+        <tr>
+            <th>Reservation ID</th>
+        <th>Book Title</th>
+        <th>User</th>
+        <th>Reservation Date</th>
+        <th>Expiry Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    <% reservations.forEach(reservation => { %>
+        <tr>
+            <td><%= reservation.reservationId %></td>
+            <td><%= reservation.bookTitle %></td>
+            <td><%= reservation.username %></td>
+            <td><%= reservation.reservationDate %></td>
+            <td><%= reservation.expiryDate %></td>
+            <td><%= reservation.status %></td>
+            <td>
+                <a href="#">Approve</a>
+                |
+                <a href="#">Delete Book</a>
+            </td>
+        </tr>
+    <% }) %>
+</table>
+</body>

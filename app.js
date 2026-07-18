@@ -33,12 +33,43 @@ app.use((req, res, next) => {
 });
 
 // Mount auth routes
-const authRoutes = require('./features/Authentication/routes/authRoutes');
+const authRoutes = require('./views/Authentication/routes/authRoutes');
 app.use('/auth', authRoutes);
 
 // Root route
 app.get('/', (req, res) => {
     res.send('Library Management System is running!');
+});
+
+// Admin Dashboard
+app.get('/admin', (req, res) => {
+
+    const reservations = [
+    {
+        reservationId: 1,
+        bookId: 101,
+        bookTitle: "Atomic Habits",
+        username: "student01",
+        reservationDate: "2026-07-19",
+        expiryDate: "2026-08-02",
+        status: "Pending"
+    },
+    {
+        reservationId: 2,
+        bookId: 102,
+        bookTitle: "The Psychology of Money",
+        username: "student02",
+        reservationDate: "2026-07-20",
+        expiryDate: "2026-08-03",
+        status: "Pending"
+    }
+    ];
+
+    res.render(
+        "features/AdminDashboard/views/adminDashboard",
+        { reservations: reservations }
+    );
+
 });
 
 app.listen(PORT, () => {
