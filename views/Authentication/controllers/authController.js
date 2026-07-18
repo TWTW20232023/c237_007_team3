@@ -4,7 +4,7 @@ class AuthController {
 
     // ─── Sign Up Page ──────────────────────
     static showSignUp(req, res) {
-        res.render('features/Authentication/views/signup', {});
+        res.render('Authentication/views/signup', {});
     }
 
     // ─── Handle Sign Up ────────────────────
@@ -13,14 +13,14 @@ class AuthController {
 
         // Basic validation
         if (!username || !email || !password || !confirmPassword) {
-            return res.render('features/Authentication/views/signup', {
+            return res.render('Authentication/views/signup', {
                 error: 'All fields are required.',
                 oldInput: req.body
             });
         }
 
         if (password !== confirmPassword) {
-            return res.render('features/Authentication/views/signup', {
+            return res.render('Authentication/views/signup', {
                 error: 'Passwords do not match.',
                 oldInput: req.body
             });
@@ -36,13 +36,13 @@ class AuthController {
                     const error = err.message.includes('email')
                         ? 'Email already exists.'
                         : 'Username already exists.';
-                    return res.render('features/Authentication/views/signup', {
+                    return res.render('Authentication/views/signup', {
                         error,
                         oldInput: req.body
                     });
                 }
                 console.error('Sign Up Error:', err);
-                return res.render('features/Authentication/views/signup', {
+                return res.render('Authentication/views/signup', {
                     error: 'An unexpected error occurred. Please try again.',
                     oldInput: req.body
                 });
@@ -51,7 +51,7 @@ class AuthController {
 
     // ─── Login Page ────────────────────────
     static showLogin(req, res) {
-        res.render('features/Authentication/views/login', {});
+        res.render('Authentication/views/login', {});
     }
 
     // ─── Handle Login ──────────────────────
@@ -59,7 +59,7 @@ class AuthController {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.render('features/Authentication/views/login', {
+            return res.render('Authentication/views/login', {
                 error: 'Email and password are required.',
                 oldInput: req.body
             });
@@ -68,7 +68,7 @@ class AuthController {
         UserModel.findByEmail(email)
             .then(async (user) => {
                 if (!user) {
-                    return res.render('features/Authentication/views/login', {
+                    return res.render('Authentication/views/login', {
                         error: 'Invalid email or password.',
                         oldInput: req.body
                     });
@@ -89,7 +89,7 @@ class AuthController {
                     }
                     return res.redirect('/');
                 } else {
-                    return res.render('features/Authentication/views/login', {
+                    return res.render('Authentication/views/login', {
                         error: 'Invalid email or password.',
                         oldInput: req.body
                     });
@@ -97,7 +97,7 @@ class AuthController {
             })
             .catch((err) => {
                 console.error('Login Error:', err);
-                return res.render('features/Authentication/views/login', {
+                return res.render('Authentication/views/login', {
                     error: 'An unexpected error occurred. Please try again.',
                     oldInput: req.body
                 });
@@ -115,8 +115,11 @@ class AuthController {
     }
 
     // ─── Admin Dashboard Page ──────────────
+    // Redirects to the real AdminDashboard feature (see app.js's /admin
+    // route) instead of rendering its own separate page - there should
+    // only be one admin dashboard, not two.
     static showAdminDashboard(req, res) {
-        res.render('features/Authentication/views/dashboard', { user: req.session.username || 'User' });
+        res.redirect('/admin');
     }
 }
 

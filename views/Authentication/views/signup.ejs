@@ -1,0 +1,36 @@
+<%- include('/partials/head', { title: 'Sign Up' }) %>
+
+<div class="auth-card">
+  <span class="eyebrow">Library System · New Member</span>
+  <h1>Sign up</h1>
+
+  <% if (typeof error !== 'undefined' && error && (!Array.isArray(error) || error.length)) { %>
+    <div class="flash error"><%= error %></div>
+  <% } %>
+
+  <form action="/auth/signup" method="POST">
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" value="<%= typeof oldInput !== 'undefined' ? oldInput.username : '' %>" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" value="<%= typeof oldInput !== 'undefined' ? oldInput.email : '' %>" required>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <div class="field">
+      <label for="confirmPassword">Confirm password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
+    </div>
+    <button class="btn btn-primary" type="submit">Create account</button>
+  </form>
+
+  <p style="margin-top:1.2rem; font-size:0.9rem;">
+    Already have an account? <a href="/auth/login">Log in</a>
+  </p>
+</div>
+
+<%- include('/partials/footer') %>

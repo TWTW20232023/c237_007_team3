@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Manage Books</title>
+<%- include('/partials/head', { title: 'Manage Books' }) %>
   <link rel="stylesheet" href="/css/bookcrud.css">
-</head>
-<body>
-  <nav class="temp-navbar"><a href="/">Library Reservation</a><a href="/">Home</a><a href="/books">Manage Books</a><!-- TEMP: replace with shared navbar.ejs once Hazirah's UIIntegration merges --></nav>
 
   <div class="page-container">
     <div class="page-header-row">
@@ -60,6 +53,4 @@
     </table>
   </div>
 
-  <footer class="temp-footer">C237 CA2 — Library Book Reservation System<!-- TEMP: replace with shared footer.ejs once Hazirah's UIIntegration merges --></footer>
-</body>
-</html>
+<%- include('/partials/footer') %>
