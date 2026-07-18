@@ -117,52 +117,16 @@ Library-System/
 ├── features/
 │
 │     ├── Authentication (Xylon)/
-│     │      ├── controllers/
-│     │      ├── routes/
-│     │      ├── models/
-│     │      ├── views/
-│     │      ├── middleware/
-│     │      └── helpers/
-│
+
 │     ├── BookCRUD (Syafiq)/
-│     │      ├── controllers/
-│     │      ├── routes/
-│     │      ├── models/
-│     │      ├── views/
-│     │      ├── middleware/
-│     │      └── helpers/
 │
 │     ├── BookListing (Ai Li)/
-│     │      ├── controllers/
-│     │      ├── routes/
-│     │      ├── models/
-│     │      ├── views/
-│     │      ├── middleware/
-│     │      └── helpers/
 │
 │     ├── Reservation (Min)/
-│     │      ├── controllers/
-│     │      ├── routes/
-│     │      ├── models/
-│     │      ├── views/
-│     │      ├── middleware/
-│     │      └── helpers/
 │
 │     ├── AdminDashboard (Tristan)/
-│     │      ├── controllers/
-│     │      ├── routes/
-│     │      ├── models/
-│     │      ├── views/
-│     │      ├── middleware/
-│     │      └── helpers/
 │
 │     └── UIIntegration (Hazirah)/
-│            ├── controllers/
-│            ├── routes/
-│            ├── models/
-│            ├── views/
-│            ├── middleware/
-│            └── helpers/
 │
 └── database/
        └── schema.sql
