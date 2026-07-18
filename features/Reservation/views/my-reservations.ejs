@@ -1,0 +1,48 @@
+<%- include('../../../views/partials/header') %> <!-- Links to Hazirah's consistent layout -->
+
+<div class="container mt-5">
+    <h2 class="mb-4">My Book Reservations</h2>
+    
+    <% if (reservations.length === 0) { %>
+        <div class="alert alert-info">You haven't made any book reservations yet.</div>
+    <% } else { %>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Reservation Date</th>
+                        <th>Expiry Date (2 Weeks)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% reservations.forEach(resItem => { %>
+                        <tr>
+                            <td><strong><%= resItem.title %></strong></td>
+                            <td><%= resItem.author %></td>
+                            <td><%= new Date(resItem.reservation_date).toLocaleDateString() %></td>
+                            <td><%= new Date(resItem.expiry_date).toLocaleDateString() %></td>
+                            <td>
+                                <% if (resItem.status === 'pending') { %>
+                                    <span class="badge bg-warning text-dark">Pending Admin Approval</span>
+                                <% } else if (resItem.status === 'confirmed') { %>
+                                    <span class="badge bg-success">Confirmed / Borrowed</span>
+                                <% } else if (resItem.status === 'expired') { %>
+                                    <span class="badge bg-secondary">Expired</span>
+                                <% } else if (resItem.status === 'overdue') { %>
+                                    <span class="badge bg-danger">Overdue</span>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+    
+    <a href="/books" class="btn btn-primary mt-3">Back to Book Catalogue</a>
+</div>
+
+<%- include('../../../views/partials/footer') %>
