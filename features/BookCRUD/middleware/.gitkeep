@@ -1,0 +1,4 @@
+// Reserved for BookCRUD-specific middleware (e.g. validating book form
+// input before it hits the controller). Empty for now — add as needed.
+// Note: this is different from the root middleware/auth.js and
+// middleware/admin.js, which are shared across all features.
