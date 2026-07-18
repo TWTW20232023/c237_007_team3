@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Book</title>
+  <link rel="stylesheet" href="/css/bookcrud.css">
+</head>
+<body>
+  <nav class="temp-navbar"><a href="/">Library Reservation</a><a href="/">Home</a><a href="/books">Manage Books</a><!-- TEMP: replace with shared navbar.ejs once Hazirah's UIIntegration merges --></nav>
+
+  <div class="page-container">
+    <p class="page-label">Book CRUD</p>
+    <h1 class="page-heading">Add New Book</h1>
+
+    <form action="/books/add" method="POST" class="form-card">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" required>
+      </div>
+      <div class="form-group">
+        <label>Author</label>
+        <input type="text" name="author" required>
+      </div>
+      <div class="form-group">
+        <label>Genre</label>
+        <input type="text" name="genre">
+      </div>
+      <p style="font-size: 0.8rem; color: var(--color-muted); margin-top: -0.5rem;">
+        ISBN will be auto-generated once saved.
+      </p>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-maroon">Add Book</button>
+        <a href="/books" class="btn btn-outline">Cancel</a>
+      </div>
+    </form>
+  </div>
+
+  <footer class="temp-footer">C237 CA2 — Library Book Reservation System<!-- TEMP: replace with shared footer.ejs once Hazirah's UIIntegration merges --></footer>
+</body>
+</html>

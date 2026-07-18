@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= book.title %> — Book Lookup</title>
+  <link rel="stylesheet" href="/css/bookcrud.css">
+</head>
+<body>
+  <div class="page-container" style="max-width: 500px;">
+    <p class="page-label">Book Lookup</p>
+    <h1 class="page-heading" style="font-size: 1.8rem;"><%= book.title %></h1>
+
+    <div class="form-card">
+      <p><strong>Author:</strong> <%= book.author %></p>
+      <p><strong>Genre:</strong> <%= book.genre %></p>
+      <p><strong>Status:</strong>
+        <span class="status-badge <%= book.status === 'available' ? 'status-available' : 'status-reserved' %>">
+          <%= book.status %>
+        </span>
+      </p>
+    </div>
+
+    <p style="font-size: 0.8rem; color: var(--color-muted); margin-top: 1rem;">
+      Scanned from the library's book QR code. Log in to reserve this title.
+    </p>
+  </div>
+</body>
+</html>
