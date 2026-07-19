@@ -54,6 +54,10 @@ app.use('/auth', authRoutes);
 const bookRoutes = require('./views/BookCRUD/routes/bookRoutes');
 app.use('/books', bookRoutes);
 
+// Mount BookListing routes
+const bookListingRoutes = require('./views/BookListing/routes/bookListingRoutes');
+app.use('/catalog', bookListingRoutes);
+
 // Mount UIIntegration routes
 const uiRoutes = require('./views/UIIntegration/routes/uiRoutes');
 app.use(uiRoutes);
