@@ -39,44 +39,44 @@
                 Coming Soon
             </div>
         </div>
-        <div class="dashboard-card dashboard-disabled">
+        <div class="dashboard-card">
             <span class="eyebrow">Reservations</span>
             <h3>Total Reservations</h3>
             <div class="dashboard-number">
                 <%= totalReservations %>
             </div>
             <div class="dashboard-footer">
-                Coming Soon
+                All-time
             </div>
         </div>
-        <div class="dashboard-card dashboard-disabled">
+        <div class="dashboard-card">
             <span class="eyebrow">Pending</span>
             <h3>Pending Reservations</h3>
             <div class="dashboard-number">
                 <%= pendingReservations %>
             </div>
             <div class="dashboard-footer">
-                Coming Soon
+                Awaiting your approval
             </div>
         </div>
-        <div class="dashboard-card dashboard-disabled">
+        <div class="dashboard-card">
             <span class="eyebrow">Confirmed</span>
             <h3>Confirmed Reservations</h3>
             <div class="dashboard-number">
                 <%= confirmedReservations %>
             </div>
             <div class="dashboard-footer">
-                Coming Soon
+                Approved / borrowed
             </div>
         </div>
-        <div class="dashboard-card dashboard-disabled">
-            <span class="eyebrow">Expired</span>
-            <h3>Expired Reservations</h3>
+        <div class="dashboard-card">
+            <span class="eyebrow">Overdue</span>
+            <h3>Overdue Reservations</h3>
             <div class="dashboard-number">
-                <%= expiredReservations %>
+                <%= typeof overdueReservations !== "undefined" ? overdueReservations.length : 0 %>
             </div>
             <div class="dashboard-footer">
-                Coming Soon
+                Past the 2-week hold
             </div>
         </div>
     </div>
@@ -158,12 +158,61 @@
                             </td>
                             <td>
                                 <div class="table-actions">
-                                    <a href="#" class="btn btn-primary">
-                                        Approve
-                                    </a>
-                                    <a href="#" class="btn btn-ghost">
-                                        Delete
-                                    </a>
+                                    <% if (reservation.status === 'pending') { %>
+                                        <form action="/reservations/<%= reservation.reservationId %>/approve" method="POST">
+                                            <button type="submit" class="btn btn-primary">Approve</button>
+                                        </form>
+                                        <form action="/reservations/<%= reservation.reservationId %>/reject" method="POST">
+                                            <button type="submit" class="btn btn-ghost">Reject</button>
+                                        </form>
+                                    <% } %>
+                                    <form action="/reservations/<%= reservation.reservationId %>/delete" method="POST"
+                                          onsubmit="return confirm('Delete this reservation?');">
+                                        <button type="submit" class="btn btn-ghost">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </section>
+    <hr class="perforation">
+    <!-- Overdue List -->
+    <section>
+        <h2>Overdue List</h2>
+        <% if (typeof overdueReservations === "undefined" || overdueReservations.length === 0) { %>
+            <div class="empty-state">
+                <h3>Nothing Overdue</h3>
+                <p>
+                    No approved reservations have passed their 2-week hold yet.
+                </p>
+            </div>
+        <% } else { %>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Book Title</th>
+                        <th>User</th>
+                        <th>Expired On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% overdueReservations.forEach(reservation => { %>
+                        <tr>
+                            <td><%= reservation.reservationId %></td>
+                            <td><%= reservation.bookTitle %></td>
+                            <td><%= reservation.username %></td>
+                            <td><%= reservation.expiryDate %></td>
+                            <td>
+                                <div class="table-actions">
+                                    <form action="/reservations/<%= reservation.reservationId %>/delete" method="POST"
+                                          onsubmit="return confirm('Delete this reservation? This marks the book available again.');">
+                                        <button type="submit" class="btn btn-ghost">Mark Returned / Delete</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

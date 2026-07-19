@@ -1,7 +1,7 @@
 {
   "name": "library-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "==================================================\r TEAM MEMBERS & RESPONSIBILITIES\r ==================================================",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +22,13 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TWTW20232023/c237_007_team3.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TWTW20232023/c237_007_team3/issues"
+  },
+  "homepage": "https://github.com/TWTW20232023/c237_007_team3#readme"
 }

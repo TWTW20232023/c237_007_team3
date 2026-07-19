@@ -588,6 +588,16 @@ table.data-table tr:last-child td { border-bottom: none; }
   background: rgba(154, 59, 59, 0.15);
   color: var(--oxblood-dark);
 }
+
+.status-badge.overdue {
+  background: rgba(154, 59, 59, 0.28);
+  color: var(--oxblood-dark);
+}
+
+.status-badge.rejected {
+  background: rgba(107, 93, 77, 0.18);
+  color: var(--ink-soft);
+}
 .dashboard-link{
     display:block;
     color:inherit;
