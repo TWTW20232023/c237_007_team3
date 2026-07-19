@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
-const { requireAuth } = require('../../../middleware/auth');
-const { requireAdmin } = require('../../../middleware/admin');
+const authMiddleware = require('../../../middleware/authMiddleware');
+const adminMiddleware = require('../../../middleware/adminMiddleware');
 
-router.get('/', requireAuth, requireAdmin, bookController.listBooks);
-router.get('/add', requireAuth, requireAdmin, bookController.showAddForm);
-router.post('/add', requireAuth, requireAdmin, bookController.addBook);
-router.get('/edit/:id', requireAuth, requireAdmin, bookController.showEditForm);
-router.post('/edit/:id', requireAuth, requireAdmin, bookController.updateBook);
-router.post('/delete/:id', requireAuth, requireAdmin, bookController.deleteBook);
-router.post('/toggle/:id', requireAuth, requireAdmin, bookController.toggleStatus);
+router.get('/', authMiddleware, adminMiddleware, bookController.listBooks);
+router.get('/add', authMiddleware, adminMiddleware, bookController.showAddForm);
+router.post('/add', authMiddleware, adminMiddleware, bookController.addBook);
+router.get('/edit/:id', authMiddleware, adminMiddleware, bookController.showEditForm);
+router.post('/edit/:id', authMiddleware, adminMiddleware, bookController.updateBook);
+router.post('/delete/:id', authMiddleware, adminMiddleware, bookController.deleteBook);
+router.post('/toggle/:id', authMiddleware, adminMiddleware, bookController.toggleStatus);
 
 // PUBLIC route — no requireAuth/requireAdmin. Reached by scanning a
 // book's QR code. Must be placed carefully: since it's just '/view/:id'
