@@ -27,7 +27,7 @@ exports.showDashboard = (req, res) => {
     const now = new Date();
     const expiringSoon = results.filter((r) => {
       if (r.status === 'expired') return false;
-      const daysLeft = (new Date(r.expires_at) - now) / (1000 * 60 * 60 * 24);
+      const daysLeft = (new Date(r.expires_date) - now) / (1000 * 60 * 60 * 24);
       return daysLeft >= 0 && daysLeft <= EXPIRING_SOON_DAYS;
     });
 
