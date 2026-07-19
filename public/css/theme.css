@@ -499,3 +499,112 @@ table.data-table tr:last-child td { border-bottom: none; }
   background: var(--card);
   color: var(--ink);
 }
+/* ============================================================
+   Dashboard Components
+   Reusable for Admin Dashboard and future management pages.
+============================================================ */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.dashboard-card {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 6px 0 var(--paper-dark),
+    0 12px 20px rgba(43, 33, 24, 0.20);
+}
+
+.dashboard-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-number {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: var(--oxblood);
+  line-height: 1;
+}
+
+.dashboard-card .eyebrow {
+  margin-bottom: 0.75rem;
+}
+
+.dashboard-card p {
+  margin: 0;
+}
+
+/* Dashboard tables */
+
+.dashboard-section {
+  margin-top: 3rem;
+}
+
+/* Action buttons inside tables */
+
+.table-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Dashboard status badges */
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: rgba(232, 163, 61, 0.15);
+  color: var(--mustard-dark);
+}
+
+.status-badge.confirmed {
+  background: rgba(47, 107, 99, 0.15);
+  color: var(--teal-dark);
+}
+
+.status-badge.expired {
+  background: rgba(154, 59, 59, 0.15);
+  color: var(--oxblood-dark);
+}
+.dashboard-link{
+    display:block;
+    color:inherit;
+    text-decoration:none;
+}
+
+.dashboard-link:hover{
+    color:inherit;
+}
+
+.dashboard-disabled{
+    cursor:not-allowed;
+}
+
+.dashboard-footer{
+    margin-top:1rem;
+    font-size:.85rem;
+    color:var(--teal);
+    font-weight:600;
+}

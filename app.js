@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const flash = require('connect-flash');
 const path = require('path');
-
+const { connection } = require('./config/db');
 const app = express();
 const PORT = 3000;
 
@@ -68,33 +68,65 @@ app.get('/', (req, res) => {
 
 // Admin Dashboard
 app.get('/admin', (req, res) => {
+    const dashboardData = {
+        totalUsers: 0,
+        totalAdmins: 0,
+        totalReservations: 0,
+        pendingReservations: 0,
+        confirmedReservations: 0,
+        expiredReservations: 0,
+        newestUsers: [],
+        reservations: [] // Placeholder until Milestone 2
+    };
+    connection.query(
+        `
+        SELECT
+            (SELECT COUNT(*) FROM users) AS totalUsers,
+            (SELECT COUNT(*) FROM users WHERE role = 'admin') AS totalAdmins,
+            (SELECT COUNT(*) FROM reservations) AS totalReservations,
+            (SELECT COUNT(*) FROM reservations WHERE status = 'pending') AS pendingReservations,
+            (SELECT COUNT(*) FROM reservations WHERE status = 'confirmed') AS confirmedReservations,
+            (SELECT COUNT(*) FROM reservations WHERE status = 'expired') AS expiredReservations
+        `,
+        (statsError, statsResults) => {
+            if (statsError) {
+                console.error(statsError);
+                return res.render(
+                    "AdminDashboard/views/adminDashboard",
+                    dashboardData
+                );
+            }
+            dashboardData.totalUsers = statsResults[0].totalUsers;
+            dashboardData.totalAdmins = statsResults[0].totalAdmins;
+            dashboardData.totalReservations = statsResults[0].totalReservations;
+            dashboardData.pendingReservations = statsResults[0].pendingReservations;
+            dashboardData.confirmedReservations = statsResults[0].confirmedReservations;
+            dashboardData.expiredReservations = statsResults[0].expiredReservations;
 
-    const reservations = [
-    {
-        reservationId: 1,
-        bookId: 101,
-        bookTitle: "Atomic Habits",
-        username: "student01",
-        reservationDate: "2026-07-19",
-        expiryDate: "2026-08-02",
-        status: "Pending"
-    },
-    {
-        reservationId: 2,
-        bookId: 102,
-        bookTitle: "The Psychology of Money",
-        username: "student02",
-        reservationDate: "2026-07-20",
-        expiryDate: "2026-08-03",
-        status: "Pending"
-    }
-    ];
-
-    res.render(
-        "AdminDashboard/views/adminDashboard",
-        { reservations: reservations }
+            connection.query(
+                `
+                SELECT
+                    username,
+                    role,
+                    created_at
+                FROM users
+                ORDER BY created_at DESC
+                LIMIT 5
+                `,
+                (usersError, usersResults) => {
+                    if (usersError) {
+                        console.error(usersError);
+                    } else {
+                        dashboardData.newestUsers = usersResults;
+                    }
+                    res.render(
+                        "AdminDashboard/views/adminDashboard",
+                        dashboardData
+                    );
+                }
+            );
+        }
     );
-
 });
 
 app.listen(PORT, () => {
