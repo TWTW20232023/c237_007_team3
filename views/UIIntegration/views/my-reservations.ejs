@@ -25,8 +25,8 @@
             <strong><%= r.book_title %></strong><br>
             <span style="color:var(--ink-soft); font-size:0.85rem;">by <%= r.book_author %></span>
           </td>
-          <td><%= new Date(r.reserved_date).toLocaleDateString() %></td>
-          <td><%= new Date(r.expires_date).toLocaleDateString() %></td>
+          <td><%= new Date(r.reserved_at).toLocaleDateString() %></td>
+          <td><%= new Date(r.expires_at).toLocaleDateString() %></td>
           <td>
             <% if (r.status === 'pending') { %>
               <span class="stamp">Pending</span>
@@ -34,6 +34,8 @@
               <span class="stamp available">Confirmed</span>
             <% } else if (r.status === 'overdue') { %>
               <span class="status-pill is-out">Overdue</span>
+            <% } else if (r.status === 'rejected') { %>
+              <span class="status-pill is-out">Rejected</span>
             <% } else { %>
               <span class="status-pill is-out">Expired</span>
             <% } %>

@@ -10,9 +10,11 @@ CREATE TABLE IF NOT EXISTS reservations (
     book_id INT NOT NULL,
 
     -- pending   -> just created, waiting on an admin
-    -- confirmed -> admin approved it
-    -- expired   -> 14 days passed with no approval
-    status ENUM('pending', 'confirmed', 'expired') DEFAULT 'pending',
+    -- confirmed -> admin approved it (book is borrowed/reserved)
+    -- rejected  -> admin declined it
+    -- expired   -> 14 days passed with no admin approval
+    -- overdue   -> was confirmed, 14 days passed, book not returned
+    status ENUM('pending', 'confirmed', 'rejected', 'expired', 'overdue') DEFAULT 'pending',
 
     reserved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     expires_at DATETIME NOT NULL,

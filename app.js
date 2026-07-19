@@ -58,6 +58,14 @@ app.use('/books', bookRoutes);
 const uiRoutes = require('./views/UIIntegration/routes/uiRoutes');
 app.use(uiRoutes);
 
+// Mount Reservation routes (create / approve / reject / delete a reservation)
+const reservationRoutes = require('./views/Reservation/routes/reservationRoutes');
+app.use('/reservations', reservationRoutes);
+
+// Mount BookListing routes (public/user-facing catalog with filters)
+const catalogRoutes = require('./views/BookListing/routes/catalogRoutes');
+app.use('/catalog', catalogRoutes);
+
 // Root route
 app.get('/', (req, res) => {
     if (req.session && req.session.user_id) {
@@ -67,7 +75,11 @@ app.get('/', (req, res) => {
 });
 
 // Admin Dashboard
-app.get('/admin', (req, res) => {
+const authMiddleware = require('./middleware/authMiddleware');
+const adminMiddleware = require('./middleware/adminMiddleware');
+const ReservationModel = require('./views/Reservation/models/reservationModel');
+
+app.get('/admin', authMiddleware, adminMiddleware, (req, res) => {
     const dashboardData = {
         totalUsers: 0,
         totalAdmins: 0,
@@ -76,7 +88,8 @@ app.get('/admin', (req, res) => {
         confirmedReservations: 0,
         expiredReservations: 0,
         newestUsers: [],
-        reservations: [] // Placeholder until Milestone 2
+        reservations: [],
+        overdueReservations: []
     };
     connection.query(
         `
@@ -119,10 +132,26 @@ app.get('/admin', (req, res) => {
                     } else {
                         dashboardData.newestUsers = usersResults;
                     }
-                    res.render(
-                        "AdminDashboard/views/adminDashboard",
-                        dashboardData
-                    );
+
+                    ReservationModel.getAllReservations((resError, resResults) => {
+                        if (resError) {
+                            console.error(resError);
+                        } else {
+                            dashboardData.reservations = resResults;
+                        }
+
+                        ReservationModel.getOverdueReservations((overdueError, overdueResults) => {
+                            if (overdueError) {
+                                console.error(overdueError);
+                            } else {
+                                dashboardData.overdueReservations = overdueResults;
+                            }
+                            res.render(
+                                "AdminDashboard/views/adminDashboard",
+                                dashboardData
+                            );
+                        });
+                    });
                 }
             );
         }

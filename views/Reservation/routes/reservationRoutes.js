@@ -1,23 +1,51 @@
-const express = require('express');
-const router = express.Router();
+    const express = require("express");
+    const router = express.Router();
 
-const reservationController = require('../controllers/reservationController');
+    const reservationController = require("../controllers/reservationController");
 
-const requireAuth = (req, res, next) => {
-    req.session.user = {
-        id: 1,
-        username: "TestUser",
-        role: "user"
-    };
-    next();
-};
+    const authMiddleware = require("../../../middleware/authMiddleware");
+    const adminMiddleware = require("../../../middleware/adminMiddleware");
 
+    // User
+    router.post(
+        "/book/:bookId",
+        authMiddleware,
+        reservationController.createReservation
+    );
 
-// Create reservation
-router.post('/book/:bookId', requireAuth, reservationController.createReservation);
+    router.get(
+        "/my-reservations",
+        authMiddleware,
+        reservationController.myReservations
+    );
 
-// View reservations
-router.get('/my-reservations', requireAuth, reservationController.getMyReservations);
+    // Admin
+    router.get(
+        "/admin",
+        authMiddleware,
+        adminMiddleware,
+        reservationController.adminReservations
+    );
 
+    router.post(
+        "/:id/approve",
+        authMiddleware,
+        adminMiddleware,
+        reservationController.approveReservation
+    );
 
-module.exports = router;
+    router.post(
+        "/:id/reject",
+        authMiddleware,
+        adminMiddleware,
+        reservationController.rejectReservation
+    );
+
+    router.post(
+        "/:id/delete",
+        authMiddleware,
+        adminMiddleware,
+        reservationController.deleteReservation
+    );
+
+    module.exports = router;
