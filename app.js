@@ -66,7 +66,7 @@ app.get('/admin', (req, res) => {
     ];
 
     res.render(
-        "AdminDashboard/adminDashboard",
+        "AdminDashboard/views/adminDashboard",
         { reservations: reservations }
     );
 
