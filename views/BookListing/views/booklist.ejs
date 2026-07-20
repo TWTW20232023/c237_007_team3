@@ -1,5 +1,21 @@
 <%- include('/partials/head', { title: 'Browse Books' }) %>
   <link rel="stylesheet" href="/css/bookcrud.css">
+  <style>
+  .filter-input {
+    padding: 0.6rem 0.9rem;
+    border: 2px solid var(--color-dark);
+    border-radius: 2px;
+    background-color: #fff;
+    font-size: 0.95rem;
+    color: var(--color-dark);
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+  .filter-input:focus {
+    outline: none;
+    border-color: var(--color-maroon);
+  }
+</style>
+
   <div class="page-container">
     <div class="page-header-row">
       <div>
@@ -9,23 +25,22 @@
     </div>
 
     <form method="GET" action="/catalog" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
-      <input type="text" name="title" placeholder="Search by title..." value="<%= query.title %>" />
-      <select name="genre">
-        <option value="">All Genres</option>
-        <% genres.forEach(function(g) { %>
-          <option value="<%= g %>" <%= query.genre === g ? 'selected' : '' %>><%= g %></option>
-        <% }); %>
-      </select>
-      <select name="status">
-        <option value="">All Statuses</option>
-        <% statuses.forEach(function(s) { %>
-          <option value="<%= s %>" <%= query.status === s ? 'selected' : '' %>><%= s %></option>
-        <% }); %>
-      </select>
-      <button type="submit" class="btn btn-maroon btn-sm">Search</button>
-      <a href="/catalog" class="btn btn-outline btn-sm">Clear</a>
-    </form>
-
+  <input type="text" name="title" class="filter-input" placeholder="Search by title..." value="<%= query.title %>" />
+  <select name="genre" class="filter-input">
+    <option value="">All Genres</option>
+    <% genres.forEach(function(g) { %>
+      <option value="<%= g %>" <%= query.genre === g ? 'selected' : '' %>><%= g %></option>
+    <% }); %>
+  </select>
+  <select name="status" class="filter-input">
+    <option value="">All Statuses</option>
+    <% statuses.forEach(function(s) { %>
+      <option value="<%= s %>" <%= query.status === s ? 'selected' : '' %>><%= s %></option>
+    <% }); %>
+  </select>
+  <button type="submit" class="btn btn-maroon btn-sm">Search</button>
+  <a href="/catalog" class="btn btn-outline btn-sm">Clear</a>
+</form>
     <p><%= books.length %> book(s) found</p>
 
     <table class="book-table">

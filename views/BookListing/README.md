@@ -23,6 +23,7 @@ Questions to answer:
 1. What routes have you created?
 
 2. What pages (EJS files) have you created?
+- I have created `booklist.ejs`.
 
 3. What filters or search functions have you implemented?
 

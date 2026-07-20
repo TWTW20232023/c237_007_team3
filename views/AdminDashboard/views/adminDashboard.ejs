@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/css/theme.css">
-</head>
-<body>
-<div class="shelf">
+<%- include('/partials/head', { title: 'Admin Dashboard' }) %>
+
     <div class="page-header">
         <div>
             <span class="eyebrow">Library Management</span>
@@ -221,6 +214,5 @@
             </table>
         <% } %>
     </section>
-</div>
-</body>
-</html>
+
+<%- include('/partials/footer') %>
