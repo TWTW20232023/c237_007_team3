@@ -32,5 +32,10 @@ router.post('/reset-password', AuthController.resetPassword);
 
 module.exports = router;
 
-console.log("SUCCESS: The forgot-password route file is loaded!");
-module.exports = router;
+// Add this temporary test route
+router.get('/test', (req, res) => {
+    res.send("SUCCESS: The auth router is working!");
+});
+
+
+module.exports = router; 

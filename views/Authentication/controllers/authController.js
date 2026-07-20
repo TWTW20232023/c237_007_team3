@@ -1,10 +1,15 @@
+const path = require('path');
 const UserModel = require('../models/userModel');
+
+// Absolute path so rendering works regardless of app.set('views') config -
+// same pattern as bookController.js / catalogController.js.
+const VIEWS = path.join(__dirname, '..');
 
 class AuthController {
 
     // ─── Sign Up Page ──────────────────────
     static showSignUp(req, res) {
-        res.render('Authentication/views/signup', {});
+        res.render(path.join(VIEWS, 'signup'), {});
     }
 
     // ─── Handle Sign Up ────────────────────
@@ -13,14 +18,14 @@ class AuthController {
 
         // Basic validation
         if (!username || !email || !password || !confirmPassword) {
-            return res.render('Authentication/views/signup', {
+            return res.render(path.join(VIEWS, 'signup'), {
                 error: 'All fields are required.',
                 oldInput: req.body
             });
         }
 
         if (password !== confirmPassword) {
-            return res.render('Authentication/views/signup', {
+            return res.render(path.join(VIEWS, 'signup'), {
                 error: 'Passwords do not match.',
                 oldInput: req.body
             });
@@ -36,14 +41,14 @@ class AuthController {
                     const error = err.message.includes('email')
                         ? 'Email already exists.'
                         : 'Username already exists.';
-                    return res.render('Authentication/views/signup', {
+                    return res.render(path.join(VIEWS, 'signup'), {
                         
                         error,
                         oldInput: req.body
                     });
                 }
                 console.error('Sign Up Error:', err);
-                return res.render('Authentication/views/signup', {
+                return res.render(path.join(VIEWS, 'signup'), {
                     error: 'An unexpected error occurred. Please try again.',
                     oldInput: req.body
                 });
@@ -52,7 +57,7 @@ class AuthController {
 
     // ─── Login Page ────────────────────────
     static showLogin(req, res) {
-        res.render('Authentication/views/login', {});
+        res.render(path.join(VIEWS, 'login'), {});
     }
 
     // ─── Handle Login ──────────────────────
@@ -60,7 +65,7 @@ class AuthController {
         const { email, password } = req.body;
 
         if (!email || !password) {
-            return res.render('Authentication/views/login', {
+            return res.render(path.join(VIEWS, 'login'), {
                 error: 'Email and password are required.',
                 oldInput: req.body
             });
@@ -69,7 +74,7 @@ class AuthController {
         UserModel.findByEmail(email)
             .then(async (user) => {
                 if (!user) {
-                    return res.render('Authentication/views/login', {
+                    return res.render(path.join(VIEWS, 'login'), {
                         error: 'Invalid email or password.',
                         oldInput: req.body
                     });
@@ -90,7 +95,7 @@ class AuthController {
                     }
                     return res.redirect('/');
                 } else {
-                    return res.render('Authentication/views/login', {
+                    return res.render(path.join(VIEWS, 'login'), {
                         error: 'Invalid email or password.',
                         oldInput: req.body
                     });
@@ -98,7 +103,7 @@ class AuthController {
             })
             .catch((err) => {
                 console.error('Login Error:', err);
-                return res.render('Authentication/views/login', {
+                return res.render(path.join(VIEWS, 'login'), {
                     error: 'An unexpected error occurred. Please try again.',
                     oldInput: req.body
                 });
@@ -126,7 +131,7 @@ class AuthController {
 
     // ─── Show Forgot Password Page ──────────
     static showForgotPassword(req, res) {
-        res.render('Authentication/views/forgot-password', {});
+        res.render(path.join(VIEWS, 'forgot-password'), {});
     }
 
     // ─── Handle Forgot Password (send OTP) ──
@@ -134,7 +139,7 @@ class AuthController {
         const { email } = req.body;
 
         if (!email) {
-            return res.render('Authentication/views/forgot-password', {
+            return res.render(path.join(VIEWS, 'forgot-password'), {
                 error: 'Email is required.',
                 oldInput: req.body
             });
@@ -144,7 +149,7 @@ class AuthController {
             .then((user) => {
                 if (!user) {
                     // Don't reveal whether the email exists for security
-                    return res.render('Authentication/views/forgot-password', {
+                    return res.render(path.join(VIEWS, 'forgot-password'), {
                         message: 'If an account with that email exists, an OTP has been sent.',
                         oldInput: req.body
                     });
@@ -168,7 +173,8 @@ class AuthController {
             })
             .catch((err) => {
                 console.error('Forgot Password Error:', err);
-                return res.render('Authentication/views/forgot-password', {
+                
+                return res.render(path.join(VIEWS, 'forgot-password'), {
                     error: 'An unexpected error occurred. Please try again.',
                     oldInput: req.body
                 });
@@ -180,7 +186,7 @@ class AuthController {
         if (!req.session.resetOtp) {
             return res.redirect('/auth/forgot-password');
         }
-        res.render('Authentication/views/verify-otp', {});
+        res.render(path.join(VIEWS, 'verify-otp'), {});
     }
 
     // ─── Handle OTP Verification ────────────
@@ -188,7 +194,7 @@ class AuthController {
         const { otp } = req.body;
 
         if (!otp) {
-            return res.render('Authentication/views/verify-otp', {
+            return res.render(path.join(VIEWS, 'verify-otp'), {
                 error: 'OTP is required.',
                 oldInput: req.body
             });
@@ -196,14 +202,14 @@ class AuthController {
 
         // Check if OTP exists and hasn't expired
         if (!req.session.resetOtp || Date.now() > req.session.resetOtp.expiresAt) {
-            return res.render('Authentication/views/verify-otp', {
+            return res.render(path.join(VIEWS, 'verify-otp'), {
                 error: 'OTP has expired. Please request a new one.',
                 oldInput: req.body
             });
         }
 
         if (otp !== req.session.resetOtp.code) {
-            return res.render('Authentication/views/verify-otp', {
+            return res.render(path.join(VIEWS, 'verify-otp'), {
                 error: 'Invalid OTP. Please try again.',
                 oldInput: req.body
             });
@@ -222,7 +228,7 @@ class AuthController {
         if (!email) {
             return res.redirect('/auth/forgot-password');
         }
-        res.render('Authentication/views/reset-password', { email });
+        res.render(path.join(VIEWS, 'reset-password'), { email });
     }
 
     // ─── Handle Reset Password ──────────────
@@ -230,14 +236,14 @@ class AuthController {
         const { email, password, confirmPassword } = req.body;
 
         if (!email || !password || !confirmPassword) {
-            return res.render('Authentication/views/reset-password', {
+            return res.render(path.join(VIEWS, 'reset-password'), {
                 error: 'All fields are required.',
                 oldInput: req.body
             });
         }
 
         if (password !== confirmPassword) {
-            return res.render('Authentication/views/reset-password', {
+            return res.render(path.join(VIEWS, 'reset-password'), {
                 error: 'Passwords do not match.',
                 oldInput: req.body
             });
@@ -254,11 +260,11 @@ class AuthController {
                 // Update password in DB — adjust column name as needed
                 await UserModel.updatePassword(user.user_id, hashedPassword);
 
-                return res.render('Authentication/views/reset-success', {});
+                return res.render(path.join(VIEWS, 'reset-success'), {});
             })
             .catch((err) => {
                 console.error('Reset Password Error:', err);
-                return res.render('Authentication/views/reset-password', {
+                return res.render(path.join(VIEWS, 'reset-password'), {
                     error: 'An unexpected error occurred. Please try again.',
                     oldInput: req.body
                 });
