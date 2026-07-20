@@ -325,7 +325,7 @@ git commit -m "Complete feature"
 
 git push -u origin <FeatureName>/v<VersionNumber>
 
-10. Create a Pull Request.
+9. Create a Pull Request.
 
 Wait for approval before merging.
 
