@@ -1,0 +1,42 @@
+<%- include('/partials/head', { title: 'Edit Book' }) %>
+  <link rel="stylesheet" href="/css/bookcrud.css">
+
+  <div class="page-container">
+    <p class="page-label">Book CRUD</p>
+    <h1 class="page-heading">Edit Book</h1>
+
+    <form action="/books/edit/<%= book.id %>" method="POST" class="form-card">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" name="title" value="<%= book.title %>" required>
+      </div>
+      <div class="form-group">
+        <label>Author</label>
+        <input type="text" name="author" value="<%= book.author %>" required>
+      </div>
+      <div class="form-group">
+        <label>Genre</label>
+        <input type="text" name="genre" value="<%= book.genre %>">
+      </div>
+      <div class="form-group">
+        <label>ISBN (auto-generated, not editable)</label>
+        <input type="text" value="<%= book.isbn %>" disabled style="background-color: #e8e0cf;">
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-gold">Save Changes</button>
+        <a href="/books" class="btn btn-outline">Cancel</a>
+      </div>
+
+      <% if (qrCodeDataUrl) { %>
+        <div class="qr-inline">
+          <img src="<%= qrCodeDataUrl %>" alt="QR code for this book">
+          <div class="qr-inline-text">
+            <p class="page-label">Scan to Look Up</p>
+            <p class="qr-url"><%= lookupUrl %></p>
+          </div>
+        </div>
+      <% } %>
+    </form>
+  </div>
+
+<%- include('/partials/footer') %>

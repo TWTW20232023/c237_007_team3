@@ -1,0 +1,68 @@
+<%- include('/partials/head', { title: 'Book List' }) %>
+
+<span class="eyebrow">Library System · Catalog</span>
+<h1>Book list</h1>
+
+<form method="GET" action="/catalog" style="display:flex; gap:0.8rem; flex-wrap:wrap; align-items:flex-end; margin: 1.2rem 0 1.8rem;">
+  <div class="form-group" style="margin:0;">
+    <label for="q">Search</label>
+    <input type="text" id="q" name="q" placeholder="Title or author" value="<%= filters.q %>">
+  </div>
+
+  <div class="form-group" style="margin:0;">
+    <label for="genre">Category</label>
+    <select id="genre" name="genre">
+      <option value="">All categories</option>
+      <% genres.forEach(function(g) { %>
+        <option value="<%= g.genre %>" <%= filters.genre === g.genre ? 'selected' : '' %>><%= g.genre %></option>
+      <% }); %>
+    </select>
+  </div>
+
+  <div class="form-group" style="margin:0;">
+    <label for="author">Author</label>
+    <input type="text" id="author" name="author" placeholder="Author name" value="<%= filters.author %>">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Filter</button>
+  <a href="/catalog" class="btn btn-ghost">Clear</a>
+</form>
+<p style="font-size:0.8rem; color:var(--ink-soft); margin-top:-1.2rem;">
+  Filtering by publisher isn't available yet - the catalog doesn't store publisher info for each book.
+</p>
+
+<% if (books.length === 0) { %>
+  <div class="empty-state">
+    <h3>No books found</h3>
+    <p>Try a different search or clear your filters.</p>
+  </div>
+<% } else { %>
+  <div class="stack-grid">
+    <% books.forEach(function(book) { %>
+      <div class="book-card">
+        <div class="cover-swatch"></div>
+        <h3><%= book.title %></h3>
+        <p class="author">by <%= book.author %></p>
+        <% if (book.genre) { %><span class="tag"><%= book.genre %></span><% } %>
+
+        <div class="card-footer">
+          <span class="status-pill <%= book.status === 'available' ? 'is-available' : (book.status === 'overdue' ? 'is-out' : 'is-reserved') %>">
+            <%= book.status %>
+          </span>
+
+          <% if (book.status === 'available') { %>
+            <% if (typeof loggedIn !== "undefined" && loggedIn) { %>
+              <form action="/reservations/book/<%= book.id %>" method="POST">
+                <button type="submit" class="btn btn-primary" style="padding:0.4rem 0.9rem; font-size:0.8rem;">Reserve</button>
+              </form>
+            <% } else { %>
+              <a href="/auth/login" class="btn btn-ghost" style="padding:0.4rem 0.9rem; font-size:0.8rem;">Log in to reserve</a>
+            <% } %>
+          <% } %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+<% } %>
+
+<%- include('/partials/footer') %>

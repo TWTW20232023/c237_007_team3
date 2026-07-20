@@ -1,0 +1,49 @@
+<%- include('/partials/head', { title: 'My Reservations' }) %>
+
+<span class="eyebrow">Library System · Your Account</span>
+<h1>My reservations</h1>
+
+<% if (reservations.length === 0) { %>
+  <div class="empty-state">
+    <h3>No reservations yet</h3>
+    <p>Head over to <a href="/catalog">Book List</a> to reserve your first book.</p>
+  </div>
+<% } else { %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Reserved on</th>
+        <th>Expires</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% reservations.forEach(function(r) { %>
+        <tr>
+          <td>
+            <strong><%= r.book_title %></strong><br>
+            <span style="color:var(--ink-soft); font-size:0.85rem;">by <%= r.book_author %></span>
+          </td>
+          <td><%= new Date(r.reserved_at).toLocaleDateString() %></td>
+          <td><%= new Date(r.expires_at).toLocaleDateString() %></td>
+          <td>
+            <% if (r.status === 'pending') { %>
+              <span class="stamp">Pending</span>
+            <% } else if (r.status === 'confirmed') { %>
+              <span class="stamp available">Confirmed</span>
+            <% } else if (r.status === 'overdue') { %>
+              <span class="status-pill is-out">Overdue</span>
+            <% } else if (r.status === 'rejected') { %>
+              <span class="status-pill is-out">Rejected</span>
+            <% } else { %>
+              <span class="status-pill is-out">Expired</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('/partials/footer') %>

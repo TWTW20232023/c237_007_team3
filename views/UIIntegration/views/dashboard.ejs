@@ -1,0 +1,37 @@
+<%- include('/partials/head', { title: 'Dashboard' }) %>
+
+<span class="eyebrow">Library System · Your Dashboard</span>
+<h1>Welcome back<% if (typeof username !== "undefined" && username) { %>, <%= username %><% } %></h1>
+
+<% if (expiringSoon.length > 0) { %>
+  <div class="flash error" style="margin-top:1rem;">
+    <strong>Heads up:</strong>
+    <% expiringSoon.forEach(function(r, i) { %><%= r.book_title %> expires <%= new Date(r.expires_at).toLocaleDateString() %><%= i < expiringSoon.length - 1 ? ', ' : '' %><% }); %>
+  </div>
+<% } %>
+
+<div class="stack-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 1.5rem;">
+  <div class="book-card" style="text-align:center;">
+    <h3 style="font-size:2rem; margin-bottom:0.2rem;"><%= stats.pending %></h3>
+    <p class="author" style="margin:0;">Pending</p>
+  </div>
+  <div class="book-card" style="text-align:center;">
+    <h3 style="font-size:2rem; margin-bottom:0.2rem;"><%= stats.confirmed %></h3>
+    <p class="author" style="margin:0;">Confirmed</p>
+  </div>
+  <div class="book-card" style="text-align:center;">
+    <h3 style="font-size:2rem; margin-bottom:0.2rem;"><%= stats.expired %></h3>
+    <p class="author" style="margin:0;">Expired</p>
+  </div>
+  <div class="book-card" style="text-align:center;">
+    <h3 style="font-size:2rem; margin-bottom:0.2rem;"><%= stats.total %></h3>
+    <p class="author" style="margin:0;">Total reservations</p>
+  </div>
+</div>
+
+<div style="display:flex; gap:0.8rem; margin-top:2rem;">
+  <a class="btn btn-primary" href="/catalog">Browse Books</a>
+  <a class="btn" href="/my-reservations">View My Reservations</a>
+</div>
+
+<%- include('/partials/footer') %>

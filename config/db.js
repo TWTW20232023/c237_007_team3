@@ -1,10 +1,12 @@
 const mysql = require('mysql2');
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'library_db'
+    host: 'c237-asyraf-mysql.mysql.database.azure.com',
+    user: 'c237_007',
+    password: 'c237007@2026!',
+    database: 'c237_007_team3',
+    // Disable SSL certificate verification
+    ssl: {rejectUnauthorized: false} 
 });
 
 db.connect((err) => {

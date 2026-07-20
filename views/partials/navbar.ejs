@@ -1,0 +1,28 @@
+<header class="site-header">
+  <a class="brand" href="/" style="text-decoration:none;">Library<small>System</small></a>
+
+  <!-- Left side: nav links -->
+  <nav class="site-nav">
+    <% if (typeof loggedIn !== "undefined" && loggedIn && role === "admin") { %>
+      <a href="/admin">Admin Dashboard</a>
+      <a href="/books">Manage Books</a>
+    <% } else { %>
+      <% if (typeof loggedIn !== "undefined" && loggedIn) { %>
+        <a href="/dashboard">Dashboard</a>
+      <% } %>
+      <a href="/catalog">Book List</a>
+      <a href="/my-reservations">Reservation List</a>
+    <% } %>
+  </nav>
+
+  <!-- Right side: account / auth links -->
+  <div class="site-nav" style="margin-left:auto;">
+    <% if (typeof loggedIn !== "undefined" && loggedIn) { %>
+      <span class="status-pill" style="color:var(--paper);opacity:.85;">Hi, <%= username %></span>
+      <a href="/auth/logout">Log out</a>
+    <% } else { %>
+      <a href="/auth/login">Log in</a>
+      <a href="/auth/signup">Sign up</a>
+    <% } %>
+  </div>
+</header>
