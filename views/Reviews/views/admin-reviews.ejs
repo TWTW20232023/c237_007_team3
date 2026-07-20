@@ -1,0 +1,44 @@
+<%- include('/partials/head', { title: 'Manage Reviews' }) %>
+
+<span class="eyebrow">Staff Only</span>
+<h1>Manage reviews</h1>
+<p style="color:var(--ink-soft);">Reviews go live the moment someone submits them - no approval needed. You can edit or delete any review here if it needs moderating.</p>
+
+<% if (allReviews.length === 0) { %>
+  <div class="empty-state">
+    <h3>No reviews yet</h3>
+    <p>Reviews will show up here once someone submits one.</p>
+  </div>
+<% } else { %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Reviewer</th>
+        <th>Rating</th>
+        <th>Comment</th>
+        <th>Submitted</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% allReviews.forEach(function(r) { %>
+        <tr>
+          <td><%= r.book_title %></td>
+          <td><%= r.username %></td>
+          <td><% for (let i = 1; i <= 5; i++) { %><%= i <= r.rating ? '★' : '☆' %><% } %></td>
+          <td><%= r.comment || '—' %></td>
+          <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+          <td style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+            <a href="/reviews/<%= r.review_id %>/edit" class="btn btn-ghost">Edit</a>
+            <form method="POST" action="/reviews/<%= r.review_id %>/delete" onsubmit="return confirm('Delete this review?');">
+              <button class="btn btn-ghost" type="submit" style="color:var(--oxblood);">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('/partials/footer') %>

@@ -1,0 +1,83 @@
+<%- include('/partials/head', { title: 'My Reviews' }) %>
+
+<span class="eyebrow">Library System · Your Account</span>
+<h1>My reviews</h1>
+
+<hr class="perforation">
+
+<% if (eligibleBooks.length === 0) { %>
+  <div class="empty-state">
+    <h3>Nothing to review yet</h3>
+    <p>You can review a book once you've reserved it — head over to <a href="/catalog">Book List</a> to get started.</p>
+  </div>
+<% } else { %>
+  <h2>Leave a review</h2>
+  <p style="color:var(--ink-soft); font-size:0.9rem;">Your review shows publicly right away — you can edit or delete it anytime below.</p>
+  <form method="POST" action="/reviews/my-reviews" style="max-width:480px;">
+    <div class="field">
+      <label for="bookId">Book</label>
+      <select id="bookId" name="bookId" required>
+        <option value="">Select a book</option>
+        <% eligibleBooks.forEach(function(book) { %>
+          <option value="<%= book.id %>"><%= book.title %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div class="field">
+      <label for="rating">Rating</label>
+      <select id="rating" name="rating" required>
+        <option value="">Select a rating</option>
+        <option value="5">★★★★★ (5)</option>
+        <option value="4">★★★★☆ (4)</option>
+        <option value="3">★★★☆☆ (3)</option>
+        <option value="2">★★☆☆☆ (2)</option>
+        <option value="1">★☆☆☆☆ (1)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="comment">Comment (optional)</label>
+      <textarea id="comment" name="comment" rows="3"></textarea>
+    </div>
+    <button class="btn btn-primary" type="submit">Submit review</button>
+  </form>
+<% } %>
+
+<hr class="perforation">
+
+<h2>Your review history</h2>
+<% if (myReviews.length === 0) { %>
+  <div class="empty-state">
+    <h3>No reviews yet</h3>
+    <p>Reviews you submit will show up here.</p>
+  </div>
+<% } else { %>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Rating</th>
+        <th>Comment</th>
+        <th>Submitted</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% myReviews.forEach(function(r) { %>
+        <tr>
+          <td><%= r.book_title %></td>
+          <td><% for (let i = 1; i <= 5; i++) { %><%= i <= r.rating ? '★' : '☆' %><% } %></td>
+          <td><%= r.comment || '—' %></td>
+          <td><%= new Date(r.created_at).toLocaleDateString() %></td>
+          <td style="display:flex; gap:0.4rem;">
+            <a href="/reviews/<%= r.review_id %>/edit" class="btn btn-ghost btn-sm">Edit</a>
+            <form method="POST" action="/reviews/<%= r.review_id %>/delete" onsubmit="return confirm('Delete this review?');">
+              <button class="btn btn-ghost btn-sm" type="submit" style="color:var(--oxblood);">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } %>
+
+<%- include('/partials/footer') %>

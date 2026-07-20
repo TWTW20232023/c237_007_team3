@@ -44,6 +44,7 @@
         <h3><%= book.title %></h3>
         <p class="author">by <%= book.author %></p>
         <% if (book.genre) { %><span class="tag"><%= book.genre %></span><% } %>
+        <p style="margin:0.4rem 0 0;"><a href="/reviews/<%= book.id %>" style="font-size:0.85rem;">★ See reviews</a></p>
 
         <div class="card-footer">
           <span class="status-pill <%= book.status === 'available' ? 'is-available' : (book.status === 'overdue' ? 'is-out' : 'is-reserved') %>">

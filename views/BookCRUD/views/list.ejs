@@ -46,6 +46,8 @@
                     onsubmit="return confirm('Delete this book?');">
                 <button type="submit" class="btn btn-maroon btn-sm">Delete</button>
               </form>
+
+              <a href="/reviews/<%= book.id %>" class="btn btn-outline btn-sm">★ Reviews</a>
             </td>
           </tr>
         <% }) %>
