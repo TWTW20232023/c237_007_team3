@@ -25,9 +25,7 @@ body {
 }
 
 .page-container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
+  padding: 0.5rem 0;
 }
 
 .page-label {
@@ -268,4 +266,187 @@ body {
   font-size: 0.75rem;
   color: var(--color-muted);
   word-break: break-all;
+}
+
+/* Clickable status pill - looks like the existing badge, but is a real
+   submit button. No hard border/background override, just a hover/
+   active lift so it reads as interactive without looking like the
+   neubrutalist buttons elsewhere. */
+.status-badge-clickable {
+  border: 1px solid var(--color-dark);
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.status-badge-clickable:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+.status-badge-clickable:active {
+  transform: translateY(0);
+}
+
+/* Compact icon+text action buttons - smaller than the main .btn style,
+   no border/shadow, sits quietly in the table row. */
+.btn-icon-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  background: none;
+}
+
+.btn-icon-text.btn-gold {
+  color: #8a6d1f;
+  border-color: var(--color-gold);
+}
+
+.btn-icon-text.btn-gold:hover {
+  background-color: var(--color-gold);
+  color: var(--color-dark);
+}
+
+.btn-icon-text.btn-outline {
+  color: var(--color-muted);
+  border-color: var(--color-muted);
+}
+
+.btn-icon-text.btn-outline:hover {
+  background-color: var(--color-bg);
+  color: var(--color-dark);
+}
+
+.btn-icon-text.btn-maroon {
+  color: var(--color-maroon);
+  border-color: var(--color-maroon);
+}
+
+.btn-icon-text.btn-maroon:hover {
+  background-color: var(--color-maroon);
+  color: #fff;
+}
+
+/* Cover image thumbnail in the admin book list */
+.book-thumb {
+  width: 40px;
+  height: 56px;
+  object-fit: cover;
+  border: 1px solid var(--color-dark);
+  display: block;
+}
+
+/* Public QR lookup page - centered, mobile-first, since this is almost
+   always opened by scanning a QR code on a phone. */
+.lookup-page {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.lookup-cover {
+  display: block;
+  width: 200px;
+  max-width: 60%;
+  margin: 0.5rem auto 1.2rem;
+  border: 2px solid var(--color-dark);
+  box-shadow: 4px 4px 0 var(--color-dark);
+}
+
+.lookup-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.lookup-details {
+  background-color: #fff;
+  border: 2px solid var(--color-dark);
+  padding: 1.2rem 1.5rem;
+  text-align: left;
+}
+
+.lookup-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #e5dac4;
+}
+
+.lookup-row:last-child {
+  border-bottom: none;
+}
+
+.lookup-label {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.lookup-value {
+  font-size: 0.95rem;
+  color: var(--color-dark);
+  font-weight: 600;
+}
+
+.lookup-cta {
+  display: block;
+  margin-top: 1.5rem;
+}
+
+.lookup-footnote {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-top: 1rem;
+}
+
+/* Cover image upload block (Add/Edit forms) - image preview and file
+   input sit side by side instead of stacked with dead space. */
+.cover-upload {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.cover-upload-preview {
+  width: 110px;
+  height: 150px;
+  object-fit: cover;
+  border: 2px solid var(--color-dark);
+  box-shadow: 4px 4px 0 var(--color-dark);
+  flex-shrink: 0;
+}
+
+.cover-upload-controls {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.4rem;
+}
+
+.cover-upload-controls input[type="file"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid var(--color-dark);
+  border-radius: 2px;
+  background-color: var(--color-bg);
+  font-size: 0.85rem;
+}
+
+.cover-upload-hint {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin: 0;
 }

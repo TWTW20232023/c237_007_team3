@@ -34,11 +34,29 @@ function updateStatus(id, newStatus, callback) {
   db.connection.query('UPDATE books SET status = ? WHERE id = ?', [newStatus, id], callback);
 }
 
+// --- Cover image (book_images table) ---
+// ON DUPLICATE KEY UPDATE handles both "first upload" and "replace
+// existing image" with one query, since book_id is UNIQUE on that table.
+function saveImage(bookId, imageBuffer, mimeType, callback) {
+  const sql = `
+    INSERT INTO book_images (book_id, image_data, mime_type)
+    VALUES (?, ?, ?)
+    ON DUPLICATE KEY UPDATE image_data = ?, mime_type = ?, uploaded_at = CURRENT_TIMESTAMP
+  `;
+  db.connection.query(sql, [bookId, imageBuffer, mimeType, imageBuffer, mimeType], callback);
+}
+
+function getImage(bookId, callback) {
+  db.connection.query('SELECT image_data, mime_type FROM book_images WHERE book_id = ?', [bookId], callback);
+}
+
 module.exports = {
   getAllBooks,
   getBookById,
   createBook,
   updateBook,
   deleteBook,
-  updateStatus
+  updateStatus,
+  saveImage,
+  getImage
 };
