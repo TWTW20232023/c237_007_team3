@@ -1,0 +1,76 @@
+<%- include('/partials/head', { title: book.title + ' Reviews' }) %>
+
+<span class="eyebrow">Reviews</span>
+<h1><%= book.title %></h1>
+<p class="author" style="margin-top:-0.5rem;">by <%= book.author %></p>
+
+<% if (averageRating !== null) { %>
+  <p style="font-size:1.3rem; letter-spacing:0.05em;">
+    <% for (let i = 1; i <= 5; i++) { %><%= i <= Math.round(averageRating) ? '★' : '☆' %><% } %>
+    <span style="font-size:0.95rem; color:var(--ink-soft);"><%= averageRating.toFixed(1) %> / 5 (<%= reviews.length %> review<%= reviews.length === 1 ? '' : 's' %>)</span>
+  </p>
+<% } else { %>
+  <p style="color:var(--ink-soft);">No reviews yet — be the first.</p>
+<% } %>
+
+<hr class="perforation">
+
+<% if (typeof loggedIn !== "undefined" && loggedIn) { %>
+  <% if (hasReserved) { %>
+    <h2>Leave a review</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem;">Your review will show here immediately.</p>
+    <form method="POST" action="/reviews/<%= book.id %>" style="max-width:480px;">
+      <div class="field">
+        <label for="rating">Rating</label>
+        <select id="rating" name="rating" required>
+          <option value="">Select a rating</option>
+          <option value="5">★★★★★ (5)</option>
+          <option value="4">★★★★☆ (4)</option>
+          <option value="3">★★★☆☆ (3)</option>
+          <option value="2">★★☆☆☆ (2)</option>
+          <option value="1">★☆☆☆☆ (1)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="comment">Comment (optional)</label>
+        <textarea id="comment" name="comment" rows="3"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit review</button>
+    </form>
+  <% } else { %>
+    <p style="color:var(--ink-soft);">You can leave a review once you've reserved this book.</p>
+  <% } %>
+<% } else { %>
+  <p><a href="/auth/login">Log in</a> to leave a review.</p>
+<% } %>
+
+<hr class="perforation">
+
+<h2>All reviews</h2>
+<% if (reviews.length === 0) { %>
+  <div class="empty-state">
+    <h3>Nothing here yet</h3>
+    <p>Reviews from other readers will show up here once someone leaves one.</p>
+  </div>
+<% } else { %>
+  <% reviews.forEach(function(r) { %>
+    <div class="book-card" style="margin-bottom:1rem;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline;">
+        <strong><%= r.username %></strong>
+        <span style="color:var(--mustard-dark);"><% for (let i = 1; i <= 5; i++) { %><%= i <= r.rating ? '★' : '☆' %><% } %></span>
+      </div>
+      <p class="author" style="margin:0.3rem 0 0;"><%= new Date(r.created_at).toLocaleDateString() %></p>
+      <% if (r.comment) { %><p style="margin-top:0.6rem;"><%= r.comment %></p><% } %>
+      <% if (typeof currentUserId !== "undefined" && currentUserId && (r.user_id === currentUserId || role === "admin")) { %>
+        <div style="margin-top:0.6rem; display:flex; gap:0.6rem;">
+          <a href="/reviews/<%= r.review_id %>/edit" style="font-size:0.8rem;">Edit</a>
+          <form method="POST" action="/reviews/<%= r.review_id %>/delete" onsubmit="return confirm('Delete this review?');">
+            <button type="submit" style="background:none; border:none; padding:0; font-size:0.8rem; color:var(--oxblood); text-decoration:underline; cursor:pointer;">Delete</button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+  <% }); %>
+<% } %>
+
+<%- include('/partials/footer') %>
