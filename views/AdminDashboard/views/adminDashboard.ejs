@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/css/theme.css">
-</head>
-<body>
-<div class="shelf">
+<%- include('/partials/head', { title: 'Admin Dashboard' }) %>
+
     <div class="page-header">
         <div>
             <span class="eyebrow">Library Management</span>
@@ -46,7 +39,7 @@
                 <%= totalReservations %>
             </div>
             <div class="dashboard-footer">
-                All-time
+                Coming Soon
             </div>
         </div>
         <div class="dashboard-card">
@@ -56,7 +49,7 @@
                 <%= pendingReservations %>
             </div>
             <div class="dashboard-footer">
-                Awaiting your approval
+                Coming Soon
             </div>
         </div>
         <div class="dashboard-card">
@@ -66,7 +59,7 @@
                 <%= confirmedReservations %>
             </div>
             <div class="dashboard-footer">
-                Approved / borrowed
+                Coming Soon
             </div>
         </div>
         <div class="dashboard-card">
@@ -76,7 +69,7 @@
                 <%= typeof overdueReservations !== "undefined" ? overdueReservations.length : 0 %>
             </div>
             <div class="dashboard-footer">
-                Past the 2-week hold
+                Coming Soon
             </div>
         </div>
     </div>
@@ -221,6 +214,5 @@
             </table>
         <% } %>
     </section>
-</div>
-</body>
-</html>
+
+<%- include('/partials/footer') %>

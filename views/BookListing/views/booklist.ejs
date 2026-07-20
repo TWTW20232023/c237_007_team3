@@ -1,0 +1,66 @@
+<%- include('/partials/head', { title: 'Browse Books' }) %>
+  <link rel="stylesheet" href="/css/bookcrud.css">
+  <div class="page-container">
+    <div class="page-header-row">
+      <div>
+        <p class="page-label">Book Listing</p>
+        <h1 class="page-heading">Browse Books</h1>
+      </div>
+    </div>
+
+    <form method="GET" action="/catalog" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+      <input type="text" name="title" placeholder="Search by title..." value="<%= query.title %>" />
+      <select name="genre">
+        <option value="">All Genres</option>
+        <% genres.forEach(function(g) { %>
+          <option value="<%= g %>" <%= query.genre === g ? 'selected' : '' %>><%= g %></option>
+        <% }); %>
+      </select>
+      <select name="status">
+        <option value="">All Statuses</option>
+        <% statuses.forEach(function(s) { %>
+          <option value="<%= s %>" <%= query.status === s ? 'selected' : '' %>><%= s %></option>
+        <% }); %>
+      </select>
+      <button type="submit" class="btn btn-maroon btn-sm">Search</button>
+      <a href="/catalog" class="btn btn-outline btn-sm">Clear</a>
+    </form>
+
+    <p><%= books.length %> book(s) found</p>
+
+    <table class="book-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>Genre</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (books.length === 0) { %>
+          <tr><td colspan="5">No books match your filters.</td></tr>
+        <% } else { %>
+          <% books.forEach(function(book) { %>
+            <tr>
+              <td><%= book.title %></td>
+              <td><%= book.author %></td>
+              <td><%= book.genre %></td>
+              <td>
+                <span class="status-badge <%= book.status === 'available' ? 'status-available' : 'status-reserved' %>">
+                  <%= book.status %>
+                </span>
+              </td>
+              <td>
+                <% if (book.status === 'available') { %>
+                  <a href="/reservations/new?bookId=<%= book.id %>" class="btn btn-gold btn-sm">Reserve</a>
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+<%- include('/partials/footer') %>
