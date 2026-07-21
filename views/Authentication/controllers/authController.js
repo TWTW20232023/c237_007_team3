@@ -1,5 +1,6 @@
 const path = require('path');
 const UserModel = require('../models/userModel');
+const nodemailer = require('nodemailer');
 
 // Absolute path so rendering works regardless of app.set('views') config -
 // same pattern as bookController.js / catalogController.js.
@@ -31,7 +32,10 @@ class AuthController {
             });
         }
 
-        UserModel.createUser({ username, email, password })()
+        UserModel.createUser({ username, email, password })
+    .then(() => {
+        return res.redirect('/auth/login');
+    })
             .then(() => {
                 // After successful signup, redirect to login
                 return res.redirect('/auth/login');
@@ -134,7 +138,7 @@ class AuthController {
         res.render(path.join(VIEWS, 'forgot-password'), {});
     }
 
-    // ─── Handle Forgot Password (send OTP) ──
+// ─── Handle Forgot Password (send OTP) ──
     static forgotPassword(req, res) {
         const { email } = req.body;
 
@@ -146,9 +150,9 @@ class AuthController {
         }
 
         UserModel.findByEmail(email)
-            .then((user) => {
+            // ⚠️ ADD 'async' HERE:
+            .then(async (user) => { 
                 if (!user) {
-                    // Don't reveal whether the email exists for security
                     return res.render(path.join(VIEWS, 'forgot-password'), {
                         message: 'If an account with that email exists, an OTP has been sent.',
                         oldInput: req.body
@@ -158,7 +162,6 @@ class AuthController {
                 // Generate a 6-digit OTP
                 const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-                // Store OTP in session (in production, use Redis or DB)
                 req.session.resetOtp = {
                     code: otp,
                     email: user.email,
@@ -166,10 +169,27 @@ class AuthController {
                     expiresAt: Date.now() + 15 * 60 * 1000 // 15 minutes expiry
                 };
 
-                // TODO: Send OTP via email (e.g., using Nodemailer)
-                console.log(`OTP for ${email}: ${otp}`);
+                // 👇 PASTE THE NEW MAILER CODE HERE 👇
+                const transporter = nodemailer.createTransport({
+                    host: 'smtp.ethereal.email',
+                    port: 587,
+                    auth: {
+                        user: process.env.EMAIL_USER,
+                        pass: process.env.EMAIL_PASS
+                    }
+                });
 
+                const mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: user.email,
+                    subject: 'Your Password Reset OTP',
+                    text: `Your OTP for resetting your password is: ${otp}. It expires in 15 minutes.`
+                };
+
+                await transporter.sendMail(mailOptions);
+                
                 return res.redirect('/auth/verify-otp');
+                // 👆 END OF NEW MAILER CODE 👆
             })
             .catch((err) => {
                 console.error('Forgot Password Error:', err);
@@ -180,7 +200,6 @@ class AuthController {
                 });
             });
     }
-
     // ─── Show Verify OTP Page ──────────────
     static showVerifyOTP(req, res) {
         if (!req.session.resetOtp) {
@@ -257,8 +276,8 @@ class AuthController {
 
                 const hashedPassword = await UserModel.hashPassword(password);
 
-                // Update password in DB — adjust column name as needed
-                await UserModel.updatePassword(user.user_id, hashedPassword);
+                // Change user.user_id to user.email
+                await UserModel.updatePassword(user.email, hashedPassword);
 
                 return res.render(path.join(VIEWS, 'reset-success'), {});
             })
