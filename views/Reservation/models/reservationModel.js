@@ -8,11 +8,12 @@
 
 const db = require('../../../config/db');
 
-const RESERVATION_PERIOD_DAYS = 14;
+// Testing only (change to 14 days before submission)
+const RESERVATION_PERIOD_MINUTES = 3;
 
 function getExpiryDate() {
   const d = new Date();
-  d.setDate(d.getDate() + RESERVATION_PERIOD_DAYS);
+  d.setMinutes(d.getMinutes() + RESERVATION_PERIOD_MINUTES);
   return d;
 }
 
@@ -45,11 +46,12 @@ function runHousekeeping(callback) {
 
               db.connection.query(
                 `UPDATE books
-                 SET status='overdue'
-                 WHERE status='reserved'
-                 AND id IN (
+                 SET status='available'
+                 WHERE id IN (
                    SELECT book_id FROM (
-                     SELECT book_id FROM reservations WHERE status='overdue'
+                     SELECT book_id
+                     FROM reservations
+                     WHERE status='overdue'
                    ) x
                  )`,
                 callback
@@ -63,35 +65,54 @@ function runHousekeeping(callback) {
 }
 
 function createReservation(userId, bookId, callback) {
-  db.connection.query(
-    "SELECT status FROM books WHERE id=?",
-    [bookId],
-    (err, rows) => {
-      if (err) return callback(err);
-      if (!rows.length) return callback(null,{notFound:true});
-      if (rows[0].status !== 'available')
-        return callback(null,{notAvailable:true});
 
-      db.connection.query(
-        `INSERT INTO reservations
-        (user_id,book_id,status,reservation_date,expiry_date)
-        VALUES (?,?, 'pending', NOW(), ?)`,
-        [userId, bookId, getExpiryDate()],
-        (err2,result)=>{
-          if(err2) return callback(err2);
+  runHousekeeping((err) => {
 
-          db.connection.query(
-            "UPDATE books SET status='processing' WHERE id=?",
-            [bookId],
-            (err3)=>{
-              if(err3) return callback(err3);
-              callback(null,{success:true,reservationId:result.insertId});
-            }
-          );
-        }
-      );
-    }
-  );
+    if (err) return callback(err);
+
+    db.connection.query(
+      "SELECT status FROM books WHERE id=?",
+      [bookId],
+      (err, rows) => {
+
+        if (err) return callback(err);
+        if (!rows.length) return callback(null, { notFound: true });
+
+        if (rows[0].status !== 'available')
+          return callback(null, { notAvailable: true });
+
+        db.connection.query(
+          `INSERT INTO reservations
+          (user_id, book_id, status, reservation_date, expiry_date)
+          VALUES (?, ?, 'pending', NOW(), ?)`,
+          [userId, bookId, getExpiryDate()],
+          (err2, result) => {
+
+            if (err2) return callback(err2);
+
+            db.connection.query(
+              "UPDATE books SET status='processing' WHERE id=?",
+              [bookId],
+              (err3) => {
+
+                if (err3) return callback(err3);
+
+                callback(null, {
+                  success: true,
+                  reservationId: result.insertId
+                });
+
+              }
+            );
+
+          }
+        );
+
+      }
+    );
+
+  });
+
 }
 
 function getReservationById(id, cb){
@@ -265,7 +286,8 @@ function deleteReservation(id, cb){
 }
 
 module.exports={
-  RESERVATION_PERIOD_DAYS,
+//change back to RESERVATION_PERIOD_DAYS before submission
+  RESERVATION_PERIOD_MINUTES,
   runHousekeeping,
   createReservation,
   getReservationById,

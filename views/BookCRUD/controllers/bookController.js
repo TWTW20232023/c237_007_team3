@@ -25,12 +25,20 @@ exports.showAddForm = (req, res) => {
 
 // HANDLE add book
 exports.addBook = (req, res) => {
-  Book.createBook(req.body, (err) => {
+  Book.createBook(req.body, (err, result) => {
     if (err) {
       console.error(err);
       return res.status(500).send('Database error');
     }
-    res.redirect('/books');
+    // If admin uploaded a cover image, save it against the new book's ID
+    if (req.file) {
+      Book.saveImage(result.insertId, req.file.buffer, req.file.mimetype, (imgErr) => {
+        if (imgErr) console.error('Image save failed:', imgErr);
+        res.redirect('/books');
+      });
+    } else {
+      res.redirect('/books');
+    }
   });
 };
 
@@ -66,7 +74,16 @@ exports.updateBook = (req, res) => {
       console.error(err);
       return res.status(500).send('Database error');
     }
-    res.redirect('/books');
+    // Only overwrite the image if a new file was actually uploaded -
+    // leaving the field blank on edit should keep the existing image.
+    if (req.file) {
+      Book.saveImage(req.params.id, req.file.buffer, req.file.mimetype, (imgErr) => {
+        if (imgErr) console.error('Image save failed:', imgErr);
+        res.redirect('/books');
+      });
+    } else {
+      res.redirect('/books');
+    }
   });
 };
 
@@ -113,5 +130,20 @@ exports.viewPublicBook = (req, res) => {
       return res.status(404).render(path.join(VIEWS, 'public-not-found'));
     }
     res.render(path.join(VIEWS, 'public-view'), { book: results[0] });
+  });
+};
+
+// SERVE a book's cover image directly (e.g. <img src="/books/image/5">).
+// Deliberately public/no-auth - any page anywhere (admin list, edit
+// page, or Ai Li's public catalog) can hotlink this without needing to
+// import any BookCRUD code, since it's just a normal image URL.
+exports.serveImage = (req, res) => {
+  Book.getImage(req.params.id, (err, results) => {
+    if (err || results.length === 0) {
+      return res.status(404).send('No image');
+    }
+    const { image_data, mime_type } = results[0];
+    res.set('Content-Type', mime_type);
+    res.send(image_data);
   });
 };

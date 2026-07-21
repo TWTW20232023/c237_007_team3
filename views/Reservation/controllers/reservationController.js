@@ -21,10 +21,10 @@ exports.createReservation = (req, res) => {
             req.flash('error', 'This book is currently unavailable.');
             return res.redirect('/catalog');
         }
-
+    //change it back to `RESERVATION_PERIOD_DAYS` before submission
         req.flash(
             'success',
-            `Reservation created successfully! The reservation is pending admin approval. It expires in ${Reservation.RESERVATION_PERIOD_DAYS} days.`
+            `Reservation created successfully! The reservation is pending admin approval. It expires in ${Reservation.RESERVATION_PERIOD_MINUTES} minutes.`
         );
 
         return res.redirect('/reservations/my-reservations');
