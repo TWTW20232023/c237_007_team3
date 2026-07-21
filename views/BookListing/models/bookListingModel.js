@@ -25,6 +25,19 @@ function getAllGenres(callback) {
   db.connection.query('SELECT DISTINCT genre FROM books', callback);
 }
 
+function getPopularBooks(limit, callback) {
+  const sql = `
+    SELECT b.id, b.title, b.author, b.genre, b.status,
+           COUNT(r.id) AS reservation_count
+    FROM books b
+    LEFT JOIN reservations r ON r.book_id = b.id
+    GROUP BY b.id, b.title, b.author, b.genre, b.status
+    ORDER BY reservation_count DESC, b.title ASC
+    LIMIT ?
+  `;
+  db.connection.query(sql, [limit], callback);
+}
+
 module.exports = {
   getFilteredBooks,
   getAllGenres,
