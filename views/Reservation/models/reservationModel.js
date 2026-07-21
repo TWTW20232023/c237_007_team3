@@ -9,7 +9,7 @@
 const db = require('../../../config/db');
 
 // Testing only (change to 14 days before submission)
-const RESERVATION_PERIOD_MINUTES = 3;
+const RESERVATION_PERIOD_DAYS = 14;
 
 
 function runHousekeeping(callback) {
@@ -95,8 +95,8 @@ function createReservation(userId, bookId, callback) {
         db.connection.query(
           `INSERT INTO reservations
           (user_id, book_id, status, reservation_date, expiry_date)
-          VALUES (?, ?, 'pending', NOW(), DATE_ADD(NOW(), INTERVAL ? MINUTE))`,
-          [userId, bookId, RESERVATION_PERIOD_MINUTES],
+          VALUES (?, ?, 'pending', NOW(), DATE_ADD(NOW(), INTERVAL ? DAY))`,
+          [userId, bookId, RESERVATION_PERIOD_DAYS],
           (err2, result) => {
 
             if (err2) return callback(err2);
@@ -298,7 +298,7 @@ function deleteReservation(id, cb){
 
 module.exports={
 //change back to RESERVATION_PERIOD_DAYS before submission
-  RESERVATION_PERIOD_MINUTES,
+  RESERVATION_PERIOD_DAYS,
   runHousekeeping,
   createReservation,
   getReservationById,
