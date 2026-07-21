@@ -1,117 +1,105 @@
 <%- include('/partials/head', { title: 'My Reservations' }) %>
 
-<div class="container mt-5">
-    <h2 class="mb-4">My Book Reservations</h2>
+<span class="eyebrow">Library System · Your Account</span>
+<h1>My Reservations</h1>
 
-    <% if (!reservations || reservations.length === 0) { %>
+<% if (!reservations || reservations.length === 0) { %>
 
-        <div class="alert alert-info">
-            You haven't made any book reservations yet.
-        </div>
+<div class="empty-state">
+    <h3>No Reservations Yet</h3>
+    <p>You haven't reserved any books.</p>
 
-    <% } else { %>
+    <a href="/catalog" class="btn btn-primary mt-3">
+        Browse Books
+    </a>
+</div>
 
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Book Title</th>
-                        <th>Author</th>
-                        <th>Reservation Date</th>
-                        <th>Expiry Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
+<% } else { %>
 
-                <tbody>
-                    <% reservations.forEach(function(resItem) { %>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Reservation Date</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
 
-                        <tr>
+    <tbody>
 
-                            <td>
-                                <strong>
-                                    <%= resItem.title || resItem.book_title %>
-                                </strong>
-                            </td>
+    <% reservations.forEach(function(r){ %>
 
-                            <td>
-                                <%= resItem.author || resItem.book_author %>
-                            </td>
+        <tr>
 
-                            <td>
-                                <% if (resItem.reservation_date) { %>
-                                    <%= new Date(resItem.reservation_date).toLocaleDateString() %>
-                                <% } else { %>
-                                    -
-                                <% } %>
-                            </td>
+            <td>
+                <strong><%= r.title || r.book_title %></strong><br>
 
-                            <td>
-                                <% if (resItem.expiry_date) { %>
-                                    <%= new Date(resItem.expiry_date).toLocaleDateString() %>
-                                <% } else { %>
-                                    -
-                                <% } %>
-                            </td>
+                <span style="color:var(--ink-soft); font-size:.9rem;">
+                    by <%= r.author || r.book_author %>
+                </span>
+            </td>
 
-                            <td>
+            <td>
+                <%= new Date(r.reservation_date).toLocaleDateString() %>
+            </td>
 
-                                <% if (resItem.status === "pending") { %>
+            <td>
+                <%= new Date(r.expiry_date).toLocaleDateString() %>
+            </td>
 
-                                    <span class="badge bg-warning text-dark">
-                                        Pending Approval
-                                    </span>
+            <td>
 
-                                <% } else if (resItem.status === "confirmed") { %>
+                <% if (r.status === 'pending') { %>
 
-                                    <span class="badge bg-success">
-                                        Confirmed
-                                    </span>
+                    <span class="stamp">
+                        Pending
+                    </span>
 
-                                <% } else if (resItem.status === "expired") { %>
+                <% } else if (r.status === 'confirmed') { %>
 
-                                    <span class="badge bg-secondary">
-                                        Expired
-                                    </span>
+                    <span class="stamp available">
+                        Confirmed
+                    </span>
 
-                                <% } else if (resItem.status === "overdue") { %>
+                <% } else if (r.status === 'overdue') { %>
 
-                                    <span class="badge bg-danger">
-                                        Overdue
-                                    </span>
+                    <span class="status-pill is-out">
+                        Overdue
+                    </span>
 
-                                <% } else if (resItem.status === "rejected") { %>
+                <% } else if (r.status === 'expired') { %>
 
-                                    <span class="badge bg-dark">
-                                        Rejected
-                                    </span>
+                    <span class="status-pill is-out">
+                        Expired
+                    </span>
 
-                                <% } else { %>
+                <% } else { %>
 
-                                    <span class="badge bg-light text-dark">
-                                        <%= resItem.status %>
-                                    </span>
+                    <span class="status-pill">
+                        <%= r.status %>
+                    </span>
 
-                                <% } %>
+                <% } %>
 
-                            </td>
+            </td>
 
-                        </tr>
+        </tr>
 
-                    <% }); %>
-                </tbody>
+    <% }) %>
 
-            </table>
-        </div>
+    </tbody>
 
-    <% } %>
+</table>
 
-    <div class="mt-3">
-        <a href="/books" class="btn btn-primary">
-            Back to Book Catalogue
-        </a>
-    </div>
+<div style="margin-top:24px;">
+
+    <a href="/catalog" class="btn btn-primary">
+        ← Back to Book Catalogue
+    </a>
 
 </div>
+
+<% } %>
 
 <%- include('/partials/footer') %>
