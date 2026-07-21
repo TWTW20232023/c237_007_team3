@@ -23,19 +23,22 @@ class UserModel {
     }
 
     // Register a new user
-    static createUser({ username, email, password, role = 'user' }) {
-        return async () => {
+static createUser({ username, email, password, role = 'user' }) {
+    return new Promise(async (resolve, reject) => {
+        try {
             const passwordHash = await this.hashPassword(password);
             const sql = `INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)`;
-            return new Promise((resolve, reject) => {
-                db.connection.execute(sql, [username, email, passwordHash, role], (err, result) => {
-                    if (err) reject(err);
-                    resolve({ id: result.insertId, username, email, role });
-                });
+            
+            db.connection.execute(sql, [username, email, passwordHash, role], (err, result) => {
+                // Add 'return' so it stops executing if there's an error
+                if (err) return reject(err); 
+                resolve({ id: result.insertId, username, email, role });
             });
-        };
-    }
-
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
     // Find user by email
     static findByEmail(email) {
         const sql = 'SELECT * FROM users WHERE email = ?';

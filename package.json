@@ -1,85 +1,88 @@
 {
-  
+  
   "name": "library-app",
-  
+  
   "version": "1.0.0",
-  
+  
   "description": "==================================================\r TEAM MEMBERS & RESPONSIBILITIES\r ==================================================",
-  
+  
   "main": "app.js",
-  
+  
   "scripts": {
-  
-    
+  
+    
   "start": "nodemon app.js",
-  
-    
+  
+    
   "test": "echo \"Error: no test specified\" && exit 1"
-  
+  
   },
-  
+  
   "keywords": [],
-  
+  
   "author": "",
-  
+  
   "license": "ISC",
-  
+  
   "type": "commonjs",
-  
+  
   "dependencies": {
-  
-    
+  
+    
   "bcrypt": "^6.0.0",
-  
-    
+  
+    
   "connect-flash": "^0.1.1",
-  
-    
+  
+    
+  "dotenv": "^17.4.2",
+  
+    
   "ejs": "^6.0.1",
-  
-    
+  
+    
   "express": "^5.2.1",
-  
-    
+  
+    
   "express-session": "^1.19.0",
-  
-    
+  
+    
   "multer": "^2.2.0",
-  
-    
+  
+    
   "mysql2": "^3.22.6",
-  
-    
+  
+    
   "nodemailer": "^9.0.3",
-  
-    
+  
+    
   "qrcode": "^1.5.4"
-  
+  
   },
-  
+  
   "devDependencies": {
-  
-    
+  
+    
   "nodemon": "^3.1.14"
-  
+  
   },
-  
+  
   "repository": {
-  
-    
+  
+    
   "type": "git",
-  
-    
+  
+    
   "url": "git+https://github.com/TWTW20232023/c237_007_team3.git"
-  
+  
   },
-  
+  
   "bugs": {
-  
-    
+  
+    
   "url": "https://github.com/TWTW20232023/c237_007_team3/issues"
-  
+  
   },
-  
+  
   "homepage": "https://github.com/TWTW20232023/c237_007_team3#readme"
 }
