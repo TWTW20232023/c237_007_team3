@@ -24,6 +24,22 @@
       </div>
     </div>
 
+  <div style="margin-bottom: 2rem;">
+  <p class="page-label">All-Time Popular</p>
+  <div class="stack-grid">
+    <% popularBooks.forEach(function(book) { %>
+      <div class="book-card">
+        <h3><%= book.title %></h3>
+        <p class="author">by <%= book.author %></p>
+        <span class="tag"><%= book.genre %></span>
+        <p style="font-size:0.8rem; color:var(--ink-soft); margin-top:0.5rem;">
+          Reserved <%= book.reservation_count %> time<%= book.reservation_count === 1 ? '' : 's' %>
+        </p>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
     <form method="GET" action="/catalog" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
   <input type="text" name="title" class="filter-input" placeholder="Search by title..." value="<%= query.title %>" />
   <select name="genre" class="filter-input">
