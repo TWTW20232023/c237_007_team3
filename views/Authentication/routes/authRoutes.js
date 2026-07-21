@@ -1,17 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/authController');
-const authMiddleware = require('../../../middleware/authMiddleware');
-const adminMiddleware = require('../../../middleware/adminMiddleware');
+const AuthController = require('../controllers/authController');
+// ─── Sign Up ──────────────────────
+router.get('/signup', AuthController.showSignUp);
+router.post('/signup', AuthController.signUp);
 
-//  Public Routes 
-router.get('/signup', authController.showSignUp);
-router.post('/signup', authController.signUp);
-router.get('/login', authController.showLogin);
-router.post('/login', authController.login);
-router.get('/logout', authController.logout);
+// ─── Login ────────────────────────
+router.get('/login', AuthController.showLogin);
+router.post('/login', AuthController.login);
 
-//  Protected Routes  in AND being an admin
-router.get('/dashboard', authMiddleware, adminMiddleware, authController.showAdminDashboard);
+// ─── Logout ───────────────────────
+router.get('/logout', AuthController.logout);
+
+// ─── Admin Dashboard (redirect) ───
+router.get('/dashboard', AuthController.showAdminDashboard);
+    // ════════════════════════════════════════════
+    //  Forgot Password & OTP Flow
+    // ════════════════════════════════════════════
+
+// ─── Forgot Password ──────────────
+router.get('/forgot-password', AuthController.showForgotPassword);
+router.post('/forgot-password', AuthController.forgotPassword);
+
+// ─── Verify OTP ───────────────────
+router.get('/verify-otp', AuthController.showVerifyOTP);
+router.post('/verify-otp', AuthController.verifyOTP);
+
+// ─── Reset Password ───────────────
+router.get('/reset-password', AuthController.showResetPassword);
+router.post('/reset-password', AuthController.resetPassword);
 
 module.exports = router;
+
+// Add this temporary test route
+router.get('/test', (req, res) => {
+    res.send("SUCCESS: The auth router is working!");
+});
+
+
+module.exports = router; 
