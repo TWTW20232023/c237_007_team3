@@ -2,27 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= book.title %> — Book Lookup</title>
   <link rel="stylesheet" href="/css/bookcrud.css">
 </head>
 <body>
-  <div class="page-container" style="max-width: 500px;">
+  <div class="lookup-page">
     <p class="page-label">Book Lookup</p>
-    <h1 class="page-heading" style="font-size: 1.8rem;"><%= book.title %></h1>
 
-    <div class="form-card">
-      <p><strong>Author:</strong> <%= book.author %></p>
-      <p><strong>Genre:</strong> <%= book.genre %></p>
-      <p><strong>Status:</strong>
+    <img src="/books/image/<%= book.id %>" alt=""
+         class="lookup-cover"
+         onerror="this.style.display='none'">
+
+    <h1 class="page-heading lookup-title"><%= book.title %></h1>
+
+    <div class="lookup-details">
+      <div class="lookup-row">
+        <span class="lookup-label">Author</span>
+        <span class="lookup-value"><%= book.author %></span>
+      </div>
+      <div class="lookup-row">
+        <span class="lookup-label">Genre</span>
+        <span class="lookup-value"><%= book.genre %></span>
+      </div>
+      <div class="lookup-row">
+        <span class="lookup-label">Status</span>
         <span class="status-badge <%= book.status === 'available' ? 'status-available' : 'status-reserved' %>">
           <%= book.status %>
         </span>
-      </p>
+      </div>
     </div>
 
-    <p style="font-size: 0.8rem; color: var(--color-muted); margin-top: 1rem;">
-      Scanned from the library's book QR code. Log in to reserve this title.
-    </p>
+    <a href="/auth/login" class="btn btn-maroon lookup-cta">Log In to Reserve</a>
+
+    <p class="lookup-footnote">Scanned from the library's book QR code</p>
   </div>
 </body>
 </html>

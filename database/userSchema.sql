@@ -1,3 +1,9 @@
+-- Create the database if it doesn't exist yet
+CREATE DATABASE IF NOT EXISTS library_db;
+
+-- Tell the system to use this specific database
+USE library_db;
+
 -- User table for Authentication feature (Xylon)
 CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -15,5 +21,3 @@ CREATE TABLE IF NOT EXISTS users (
 -- Default admin account for initial access
 INSERT INTO users (username, email, password_hash, role)
 VALUES ('admin', 'admin@library.com', '$2b$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcIO7EgZgxzdBVS4G7AOPCwV6G.', 'admin');
-
--- Default admin password: adminpassword

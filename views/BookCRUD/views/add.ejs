@@ -5,7 +5,7 @@
     <p class="page-label">Book CRUD</p>
     <h1 class="page-heading">Add New Book</h1>
 
-    <form action="/books/add" method="POST" class="form-card">
+    <form action="/books/add" method="POST" class="form-card" enctype="multipart/form-data">
       <div class="form-group">
         <label>Title</label>
         <input type="text" name="title" required>
@@ -17,6 +17,12 @@
       <div class="form-group">
         <label>Genre</label>
         <input type="text" name="genre">
+      </div>
+      <div class="form-group">
+        <label>Cover Image (optional)</label>
+        <div class="cover-upload-controls">
+          <input type="file" name="coverImage" accept="image/*">
+        </div>
       </div>
       <p style="font-size: 0.8rem; color: var(--color-muted); margin-top: -0.5rem;">
         ISBN will be auto-generated once saved.

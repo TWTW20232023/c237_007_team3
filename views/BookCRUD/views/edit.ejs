@@ -5,7 +5,7 @@
     <p class="page-label">Book CRUD</p>
     <h1 class="page-heading">Edit Book</h1>
 
-    <form action="/books/edit/<%= book.id %>" method="POST" class="form-card">
+    <form action="/books/edit/<%= book.id %>" method="POST" class="form-card" enctype="multipart/form-data">
       <div class="form-group">
         <label>Title</label>
         <input type="text" name="title" value="<%= book.title %>" required>
@@ -21,6 +21,18 @@
       <div class="form-group">
         <label>ISBN (auto-generated, not editable)</label>
         <input type="text" value="<%= book.isbn %>" disabled style="background-color: #e8e0cf;">
+      </div>
+      <div class="form-group">
+        <label>Cover Image</label>
+        <div class="cover-upload">
+          <img src="/books/image/<%= book.id %>" alt="Current cover"
+               class="cover-upload-preview"
+               onerror="this.style.display='none'">
+          <div class="cover-upload-controls">
+            <input type="file" name="coverImage" accept="image/*">
+            <p class="cover-upload-hint">Leave blank to keep the current image.</p>
+          </div>
+        </div>
       </div>
       <div class="form-actions">
         <button type="submit" class="btn btn-gold">Save Changes</button>

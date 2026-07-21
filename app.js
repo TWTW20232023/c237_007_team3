@@ -55,12 +55,26 @@ const bookRoutes = require('./views/BookCRUD/routes/bookRoutes');
 app.use('/books', bookRoutes);
 
 // Mount BookListing routes
-const bookListingRoutes = require('./views/BookListing/routes/bookListingRoutes');
-app.use('/catalog', bookListingRoutes);
+// DISABLED - this was shadowing catalogRoutes below (both mounted at
+// '/catalog', both define GET '/', and this one being registered first
+// meant it always won). This version's Reserve button links to
+// /reservations/new?bookId=... which doesn't match any route Min actually
+// built - that's the "Cannot GET" error. catalogRoutes below is the
+// working version - its Reserve form already matches Min's real
+// POST /reservations/book/:id route correctly.
+// Ai Li: please confirm which of these two implementations
+// (bookListingController/booklist.ejs vs catalogController/catalog.ejs)
+// should be kept, and remove the other's files entirely once decided.
+// const bookListingRoutes = require('./views/BookListing/routes/bookListingRoutes');
+// app.use('/catalog', bookListingRoutes);
 
 // Mount UIIntegration routes
 const uiRoutes = require('./views/UIIntegration/routes/uiRoutes');
 app.use(uiRoutes);
+
+// Mount Reviews routes (view/add reviews for a specific book)
+const reviewRoutes = require('./views/Reviews/routes/reviewRoutes');
+app.use('/reviews', reviewRoutes);
 
 // Mount Reservation routes (create / approve / reject / delete a reservation)
 const reservationRoutes = require('./views/Reservation/routes/reservationRoutes');

@@ -315,15 +315,9 @@ git pull origin main
 
 git checkout <FeatureName>/v<VersionNumber>
 
-7. Merge the latest changes
+7. Continue developing.
 
-git merge main
-
-If there are merge conflicts, resolve them before continuing.
-
-8. Continue developing.
-
-9. When finished
+8. When finished:
 
 git add .
 
@@ -331,7 +325,7 @@ git commit -m "Complete feature"
 
 git push -u origin <FeatureName>/v<VersionNumber>
 
-10. Create a Pull Request.
+9. Create a Pull Request.
 
 Wait for approval before merging.
 

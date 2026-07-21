@@ -6,12 +6,16 @@
     <% if (typeof loggedIn !== "undefined" && loggedIn && role === "admin") { %>
       <a href="/admin">Admin Dashboard</a>
       <a href="/books">Manage Books</a>
+      <a href="/reviews/admin/all">Manage Reviews</a>
     <% } else { %>
       <% if (typeof loggedIn !== "undefined" && loggedIn) { %>
         <a href="/dashboard">Dashboard</a>
       <% } %>
       <a href="/catalog">Book List</a>
       <a href="/my-reservations">Reservation List</a>
+      <% if (typeof loggedIn !== "undefined" && loggedIn) { %>
+        <a href="/reviews/my-reviews">My Reviews</a>
+      <% } %>
     <% } %>
   </nav>
 

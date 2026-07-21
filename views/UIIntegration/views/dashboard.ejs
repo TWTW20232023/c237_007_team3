@@ -6,7 +6,7 @@
 <% if (expiringSoon.length > 0) { %>
   <div class="flash error" style="margin-top:1rem;">
     <strong>Heads up:</strong>
-    <% expiringSoon.forEach(function(r, i) { %><%= r.book_title %> expires <%= new Date(r.expires_at).toLocaleDateString() %><%= i < expiringSoon.length - 1 ? ', ' : '' %><% }); %>
+    <% expiringSoon.forEach(function(r, i) { %><%= r.book_title %> expires <%= new Date(r.expiry_date).toLocaleDateString() %><%= i < expiringSoon.length - 1 ? ', ' : '' %><% }); %>
   </div>
 <% } %>
 
@@ -33,5 +33,37 @@
   <a class="btn btn-primary" href="/catalog">Browse Books</a>
   <a class="btn" href="/my-reservations">View My Reservations</a>
 </div>
+
+<% if (typeof similarBooks !== "undefined" && similarBooks.length > 0) { %>
+  <hr class="perforation">
+  <span class="eyebrow">Because you've reserved similar books</span>
+  <h2 style="margin-top:0.3rem;">More like what you've read</h2>
+  <div class="stack-grid">
+    <% similarBooks.forEach(function(book) { %>
+      <div class="book-card">
+        <span class="tag"><%= book.genre %></span>
+        <h3><%= book.title %></h3>
+        <p class="author" style="margin:0;">by <%= book.author %></p>
+        <p style="margin:0.4rem 0 0;"><a href="/reviews/<%= book.id %>" style="font-size:0.85rem;">★ See reviews</a></p>
+      </div>
+    <% }); %>
+  </div>
+<% } %>
+
+<% if (typeof popularBooks !== "undefined" && popularBooks.length > 0) { %>
+  <hr class="perforation">
+  <span class="eyebrow">Popular right now</span>
+  <h2 style="margin-top:0.3rem;">Trending with other readers</h2>
+  <div class="stack-grid">
+    <% popularBooks.forEach(function(book) { %>
+      <div class="book-card">
+        <% if (book.genre) { %><span class="tag alt"><%= book.genre %></span><% } %>
+        <h3><%= book.title %></h3>
+        <p class="author" style="margin:0;">by <%= book.author %></p>
+        <p style="margin:0.4rem 0 0;"><a href="/reviews/<%= book.id %>" style="font-size:0.85rem;">★ See reviews</a></p>
+      </div>
+    <% }); %>
+  </div>
+<% } %>
 
 <%- include('/partials/footer') %>
