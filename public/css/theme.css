@@ -504,117 +504,264 @@ table.data-table tr:last-child td { border-bottom: none; }
    Reusable for Admin Dashboard and future management pages.
 ============================================================ */
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+/* ===========================
+   Dashboard Statistics
+=========================== */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:1.5rem;
+    margin:2rem 0;
 }
 
-.dashboard-card {
-  background: var(--card);
-  border: 2px solid var(--ink);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-card);
-  transition:
-    transform 0.2s var(--ease),
-    box-shadow 0.2s var(--ease);
+.dashboard-card{
+    background:var(--card);
+    border:2px solid var(--ink);
+    border-radius:var(--radius-lg);
+    padding:1.5rem;
+    box-shadow:var(--shadow-card);
+    transition:
+        transform .25s var(--ease),
+        box-shadow .25s var(--ease),
+        border-color .25s var(--ease);
 }
 
-.dashboard-card:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 6px 0 var(--paper-dark),
-    0 12px 20px rgba(43, 33, 24, 0.20);
+.dashboard-card:hover{
+    transform:translateY(-6px);
+    box-shadow:
+        0 8px 0 var(--paper-dark),
+        0 16px 24px rgba(43,33,24,.18);
 }
 
-.dashboard-card h3 {
-  margin-bottom: 0.5rem;
+.dashboard-card h3{
+    margin:.35rem 0 .5rem;
 }
 
-.dashboard-number {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  font-weight: 900;
-  color: var(--oxblood);
-  line-height: 1;
+.dashboard-card p{
+    margin:.5rem 0 0;
+    color:var(--ink-soft);
 }
 
-.dashboard-card .eyebrow {
-  margin-bottom: 0.75rem;
+.dashboard-card .eyebrow{
+    margin-bottom:.4rem;
 }
 
-.dashboard-card p {
-  margin: 0;
+/* ===========================
+   Statistic Numbers
+=========================== */
+
+.dashboard-number{
+    font-family:var(--font-display);
+    font-size:clamp(2.2rem,5vw,3rem);
+    font-weight:900;
+    line-height:1;
+    margin:.75rem 0;
 }
 
-/* Dashboard tables */
-
-.dashboard-section {
-  margin-top: 3rem;
+.dashboard-users{
+    color:var(--teal);
 }
 
-/* Action buttons inside tables */
-
-.table-actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+.dashboard-admins{
+    color:var(--mustard-dark);
 }
 
-/* Dashboard status badges */
-
-.status-badge {
-  display: inline-block;
-  padding: 0.25rem 0.7rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: capitalize;
+.dashboard-reservations{
+    color:var(--oxblood);
 }
 
-.status-badge.pending {
-  background: rgba(232, 163, 61, 0.15);
-  color: var(--mustard-dark);
+.dashboard-pending{
+    color:var(--mustard-dark);
 }
 
-.status-badge.confirmed {
-  background: rgba(47, 107, 99, 0.15);
-  color: var(--teal-dark);
+.dashboard-confirmed{
+    color:var(--teal-dark);
 }
 
-.status-badge.expired {
-  background: rgba(154, 59, 59, 0.15);
-  color: var(--oxblood-dark);
+.dashboard-overdue{
+    color:var(--oxblood-dark);
 }
 
-.status-badge.overdue {
-  background: rgba(154, 59, 59, 0.28);
-  color: var(--oxblood-dark);
+.dashboard-footer{
+    margin-top:1rem;
+    padding-top:.75rem;
+    border-top:1px dashed var(--line);
+    font-size:.85rem;
+    font-weight:600;
+    color:var(--ink-soft);
 }
 
-.status-badge.rejected {
-  background: rgba(107, 93, 77, 0.18);
-  color: var(--ink-soft);
-}
+/* ===========================
+   Quick Action Cards
+=========================== */
+
 .dashboard-link{
     display:block;
-    color:inherit;
     text-decoration:none;
+    color:inherit;
+    height:100%;
 }
 
 .dashboard-link:hover{
     color:inherit;
 }
 
-.dashboard-disabled{
-    cursor:not-allowed;
+.dashboard-link:hover .dashboard-card{
+    border-color:var(--mustard);
 }
 
-.dashboard-footer{
+.dashboard-link h3{
+    margin-top:.6rem;
+}
+
+.dashboard-link p{
+    margin-top:.8rem;
+}
+
+/* ===========================
+   Disabled Cards
+=========================== */
+
+.dashboard-disabled{
+    opacity:.95;
+    cursor:default;
+}
+
+/* ===========================
+   Dashboard Sections
+=========================== */
+
+.dashboard-section{
+    margin-top:3rem;
+}
+
+/*
+Used for the
+Latest Reservations
++
+Newest Users
+layout.
+*/
+
+.dashboard-columns{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:2rem;
+    align-items:start;
+    margin:2rem 0;
+}
+
+.dashboard-panel{
+    background:transparent;
+}
+
+/* ===========================
+   Tables
+=========================== */
+
+.dashboard-panel table{
     margin-top:1rem;
-    font-size:.85rem;
-    color:var(--teal);
-    font-weight:600;
+}
+
+.table-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem;
+    align-items:center;
+}
+
+.table-actions form{
+    margin:0;
+}
+
+.table-actions .btn{
+    white-space:nowrap;
+}
+
+/* ===========================
+   Status Badges
+=========================== */
+
+.status-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:.3rem .8rem;
+    border-radius:999px;
+    font-size:.75rem;
+    font-weight:700;
+    text-transform:capitalize;
+    letter-spacing:.03em;
+}
+
+.status-badge.pending{
+    background:rgba(232,163,61,.18);
+    color:var(--mustard-dark);
+}
+
+.status-badge.confirmed{
+    background:rgba(47,107,99,.18);
+    color:var(--teal-dark);
+}
+
+.status-badge.expired{
+    background:rgba(154,59,59,.15);
+    color:var(--oxblood-dark);
+}
+
+.status-badge.overdue{
+    background:rgba(154,59,59,.28);
+    color:var(--oxblood-dark);
+}
+
+.status-badge.rejected{
+    background:rgba(107,93,77,.15);
+    color:var(--ink-soft);
+}
+
+/* ===========================
+   Dashboard Footer
+=========================== */
+
+.dashboard-end{
+    text-align:center;
+    margin-top:3rem;
+    padding-top:2rem;
+    border-top:2px dashed var(--line);
+    color:var(--ink-soft);
+    font-size:.9rem;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width:900px){
+
+    .dashboard-columns{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media (max-width:640px){
+
+    .dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .table-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .table-actions form{
+        width:100%;
+    }
+
+    .table-actions button{
+        width:100%;
+    }
+
 }

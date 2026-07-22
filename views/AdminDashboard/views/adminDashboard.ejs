@@ -1,218 +1,247 @@
 <%- include('/partials/head', { title: 'Admin Dashboard' }) %>
-
+<div class="page-header">
+    <div>
+        <span class="eyebrow">Library Administration</span>
+        <h1>Admin Dashboard</h1>
+        <p>
+            Welcome to the Library Administration Dashboard.
+            Monitor library activity, review reservations, manage users and quickly
+            access the major features of the Library Management System from one place.
+        </p>
+    </div>
+</div>
+<!-- Dashboard Statistics -->
+<div class="dashboard-grid">
+    <div class="dashboard-card dashboard-disabled">
+        <span class="eyebrow">Users</span>
+        <h3>Total Users</h3>
+        <div class="dashboard-number dashboard-users"><%= totalUsers %></div>
+        <div class="dashboard-footer">
+            Latest registered users
+        </div>
+    </div>
+    <div class="dashboard-card dashboard-disabled">
+        <span class="eyebrow">Administration</span>
+        <h3>Total Admins</h3>
+        <div class="dashboard-number dashboard-admins"><%= totalAdmins %></div>
+        <div class="dashboard-footer">
+            Administrator accounts
+        </div>
+    </div>
+    <div class="dashboard-card">
+        <span class="eyebrow">Reservations</span>
+        <h3>Total Reservations</h3>
+        <div class="dashboard-number dashboard-reservations"><%= totalReservations %></div>
+        <div class="dashboard-footer">
+            Total reservation records
+        </div>
+    </div>
+    <div class="dashboard-card">
+        <span class="eyebrow">Pending</span>
+        <h3>Pending Reservations</h3>
+        <div class="dashboard-number dashboard-pending"><%= pendingReservations %></div>
+        <div class="dashboard-footer">
+            Awaiting administrator approval
+        </div>
+    </div>
+    <div class="dashboard-card">
+        <span class="eyebrow">Confirmed</span>
+        <h3>Confirmed Reservations</h3>
+        <div class="dashboard-number dashboard-confirmed"><%= confirmedReservations %></div>
+        <div class="dashboard-footer">
+            Currently approved reservations
+        </div>
+    </div>
+    <div class="dashboard-card">
+        <span class="eyebrow">Overdue</span>
+        <h3>Overdue Reservations</h3>
+        <div class="dashboard-number dashboard-overdue">
+            <%= typeof overdueReservations !== "undefined" ? overdueReservations.length : 0 %>
+        </div>
+        <div class="dashboard-footer">
+            Requires immediate attention
+        </div>
+    </div>
+</div>
+<hr class="perforation">
+<!-- Quick Actions -->
+<section>
     <div class="page-header">
         <div>
-            <span class="eyebrow">Library Management</span>
-            <h1>Admin Dashboard</h1>
+            <span class="eyebrow">Navigation</span>
+            <h2>Quick Actions</h2>
+        </div>
+    </div>
+    <div class="dashboard-grid">
+        <a href="/books" class="dashboard-card dashboard-link">
+            <span class="eyebrow">Book Management</span>
+            <h3>📚 Manage Books</h3>
+            <p>Add, edit and remove books from the library.</p>
+        </a>
+        <a href="/catalog" class="dashboard-card dashboard-link">
+            <span class="eyebrow">Catalogue</span>
+            <h3>📖 Browse Catalogue</h3>
+            <p>View the public library catalogue.</p>
+        </a>
+        <div class="dashboard-card dashboard-disabled">
+            <span class="eyebrow">Reservations</span>
+            <h3>📋 Reservation Summary</h3>
             <p>
-                View an overview of your library system, monitor reservations,
-                and manage users from one place.
+                View the latest reservation activity and overdue books below.
             </p>
         </div>
+        <a href="/reviews/admin/all" class="dashboard-card dashboard-link">
+            <span class="eyebrow">Reviews</span>
+            <h3>⭐ Manage Reviews</h3>
+            <p>View feedback submitted by library users.</p>
+        </a>
     </div>
-    <!-- Dashboard Statistics -->
-    <div class="dashboard-grid">
-        <div class="dashboard-card dashboard-disabled">
-            <span class="eyebrow">Users</span>
-            <h3>Total Users</h3>
-            <div class="dashboard-number">
-                <%= totalUsers %>
-            </div>
-            <div class="dashboard-footer">
-                Coming Soon
-            </div>
+</section>
+<hr class="perforation">
+<!-- Recently Registered Users -->
+<section>
+    <h2>Recently Registered Users</h2>
+    <% if(newestUsers.length === 0){ %>
+        <div class="empty-state">
+            <h3>No Registered Users</h3>
+            <p>
+                New users will appear here once they register an account.
+            </p>
         </div>
-        <div class="dashboard-card dashboard-disabled">
-            <span class="eyebrow">Administration</span>
-            <h3>Total Admins</h3>
-            <div class="dashboard-number">
-                <%= totalAdmins %>
-            </div>
-            <div class="dashboard-footer">
-                Coming Soon
-            </div>
-        </div>
-        <div class="dashboard-card">
-            <span class="eyebrow">Reservations</span>
-            <h3>Total Reservations</h3>
-            <div class="dashboard-number">
-                <%= totalReservations %>
-            </div>
-            <div class="dashboard-footer">
-                Coming Soon
-            </div>
-        </div>
-        <div class="dashboard-card">
-            <span class="eyebrow">Pending</span>
-            <h3>Pending Reservations</h3>
-            <div class="dashboard-number">
-                <%= pendingReservations %>
-            </div>
-            <div class="dashboard-footer">
-                Coming Soon
-            </div>
-        </div>
-        <div class="dashboard-card">
-            <span class="eyebrow">Confirmed</span>
-            <h3>Confirmed Reservations</h3>
-            <div class="dashboard-number">
-                <%= confirmedReservations %>
-            </div>
-            <div class="dashboard-footer">
-                Coming Soon
-            </div>
-        </div>
-        <div class="dashboard-card">
-            <span class="eyebrow">Overdue</span>
-            <h3>Overdue Reservations</h3>
-            <div class="dashboard-number">
-                <%= typeof overdueReservations !== "undefined" ? overdueReservations.length : 0 %>
-            </div>
-            <div class="dashboard-footer">
-                Coming Soon
-            </div>
-        </div>
-    </div>
-    <hr class="perforation">
-    <!-- Newest Users -->
-    <section>
-        <h2>Newest Users</h2>
-        <% if(newestUsers.length === 0){ %>
-            <div class="empty-state">
-                <h3>No Registered Users</h3>
-                <p>
-                    There are currently no registered users in the system.
-                </p>
-            </div>
-        <% } else { %>
-            <table class="data-table">
-                <thead>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Joined On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% newestUsers.forEach(user => { %>
                     <tr>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Joined On</th>
+                        <td><%= user.username %></td>
+                        <td><%= user.role %></td>
+                        <td><%= new Date(user.created_at).toLocaleDateString() %></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <% newestUsers.forEach(user => { %>
-                        <tr>
-                            <td>
-                                <%= user.username %>
-                            </td>
-                            <td>
-                                <%= user.role %>
-                            </td>
-                            <td>
-                                <%= new Date(user.created_at).toLocaleDateString() %>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        <% } %>
-    </section>
-    <hr class="perforation">
-    <!-- Recent Reservations -->
-    <section>
-        <h2>Recent Reservations</h2>
-        <% if(reservations.length === 0){ %>
-            <div class="empty-state">
-                <h3>No Reservation Records</h3>
-                <p>
-                    There are currently no reservation records available.
-                </p>
-            </div>
-        <% } else { %>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Reservation ID</th>
-                        <th>Book Title</th>
-                        <th>User</th>
-                        <th>Reservation Date</th>
-                        <th>Expiry Date</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% reservations.forEach(reservation => { %>
-
-                        <tr>
-                            <td><%= reservation.reservationId %></td>
-                            <td><%= reservation.bookTitle %></td>
-                            <td><%= reservation.username %></td>
-                            <td><%= reservation.reservationDate %></td>
-                            <td><%= reservation.expiryDate %></td>
-                            <td>
-                                <span class="status-badge <%= reservation.status.toLowerCase() %>">
-                                    <%= reservation.status %>
-                                </span>
-                            </td>
-                            <td>
-                                <div class="table-actions">
-                                    <% if (reservation.status === 'pending') { %>
-                                        <form action="/reservations/<%= reservation.reservationId %>/approve" method="POST">
-                                            <button type="submit" class="btn btn-primary">Approve</button>
-                                        </form>
-                                        <form action="/reservations/<%= reservation.reservationId %>/reject" method="POST">
-                                            <button type="submit" class="btn btn-ghost">Reject</button>
-                                        </form>
-                                    <% } %>
-                                    <form action="/reservations/<%= reservation.reservationId %>/delete" method="POST"
-                                          onsubmit="return confirm('Delete this reservation?');">
-                                        <button type="submit" class="btn btn-ghost">Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        <% } %>
-    </section>
-    <hr class="perforation">
-    <!-- Overdue List -->
-    <section>
-        <h2>Overdue List</h2>
-        <% if (typeof overdueReservations === "undefined" || overdueReservations.length === 0) { %>
-            <div class="empty-state">
-                <h3>Nothing Overdue</h3>
-                <p>
-                    No approved reservations have passed their 2-week hold yet.
-                </p>
-            </div>
-        <% } else { %>
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Reservation ID</th>
-                        <th>Book Title</th>
-                        <th>User</th>
-                        <th>Expired On</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% overdueReservations.forEach(reservation => { %>
-                        <tr>
-                            <td><%= reservation.reservationId %></td>
-                            <td><%= reservation.bookTitle %></td>
-                            <td><%= reservation.username %></td>
-                            <td><%= reservation.expiryDate %></td>
-                            <td>
-                                <div class="table-actions">
-                                    <form action="/reservations/<%= reservation.reservationId %>/delete" method="POST"
-                                          onsubmit="return confirm('Delete this reservation? This marks the book available again.');">
-                                        <button type="submit" class="btn btn-ghost">Mark Returned / Delete</button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    <% }) %>
-                </tbody>
-            </table>
-        <% } %>
-    </section>
-
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</section>
+<hr class="perforation">
+<!-- Latest Reservation Activity -->
+<section>
+    <h2>Latest Reservation Activity</h2>
+    <% const activeReservations = reservations.filter(reservation => reservation.status !== 'overdue'); %>
+    <% if(activeReservations.length === 0){ %>
+        <div class="empty-state">
+            <h3>No Reservation Records</h3>
+            <p>
+                Reservation activity will appear here once users begin reserving books.
+            </p>
+        </div>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Reservation ID</th>
+                    <th>Book Title</th>
+                    <th>User</th>
+                    <th>Reservation Date</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% activeReservations.forEach(reservation => { %>
+                <tr>
+                    <td><%= reservation.reservationId %></td>
+                    <td><%= reservation.bookTitle %></td>
+                    <td><%= reservation.username %></td>
+                    <td><%= reservation.reservationDate %></td>
+                    <td><%= reservation.expiryDate %></td>
+                    <td>
+                        <span class="status-badge <%= reservation.status.toLowerCase() %>">
+                            <%= reservation.status %>
+                        </span>
+                    </td>
+                    <td>
+                        <% if (reservation.status === 'pending') { %>
+                            <div class="table-actions">
+                                <form action="/reservations/<%= reservation.reservationId %>/approve" method="POST">
+                                    <button type="submit" class="btn btn-primary">
+                                        Approve
+                                    </button>
+                                </form>
+                                <form action="/reservations/<%= reservation.reservationId %>/reject" method="POST">
+                                    <button type="submit" class="btn btn-ghost">
+                                        Reject
+                                    </button>
+                                </form>
+                            </div>
+                        <% } else { %>
+                            <span style="color:var(--ink-soft);font-style:italic;">
+                                No action required
+                            </span>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</section>
+<hr class="perforation">
+<!-- Overdue Reservations -->
+<section>
+    <h2>Overdue Reservations</h2>
+    <% if (typeof overdueReservations === "undefined" || overdueReservations.length === 0) { %>
+        <div class="empty-state">
+            <h3>Nothing Overdue 🎉</h3>
+            <p>
+                Great! There are currently no overdue reservations requiring administrator action.
+            </p>
+        </div>
+    <% } else { %>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Reservation ID</th>
+                    <th>Book Title</th>
+                    <th>User</th>
+                    <th>Expired On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% overdueReservations.forEach(reservation => { %>
+                <tr>
+                    <td><%= reservation.reservationId %></td>
+                    <td><%= reservation.bookTitle %></td>
+                    <td><%= reservation.username %></td>
+                    <td><%= reservation.expiryDate %></td>
+                    <td>
+                        <div class="table-actions">
+                            <form
+                                action="/reservations/<%= reservation.reservationId %>/delete"
+                                method="POST"
+                                onsubmit="return confirm('Delete this reservation? This marks the book available again.');">
+                                <button type="submit" class="btn btn-ghost">
+                                    Mark Returned
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</section>
+<hr class="perforation">
+<div style="text-align:center;opacity:.7;">
+    <p>Library Management System • Republic Polytechnic</p>
+</div>
 <%- include('/partials/footer') %>
